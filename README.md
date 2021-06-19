@@ -11,3 +11,5 @@ This web app is developed with ASP.NET MVC Core 5, Bootstrap, Javascript, MySQL 
 * Le Hoang Khoi
 * Nguyen Quoc Dat
 * Tran Tan Long
+
+(C) 2021 PhongNT, PhucVVT, KhoiLH, DatNQ, LongTT
