@@ -1,36 +1,30 @@
 ﻿using System;
 using System.IO;
-using ClothesShoppingLibrary.DataAccess.Category;
-using ClothesShoppingLibrary.DataAccess.Order;
-using ClothesShoppingLibrary.DataAccess.OrderDetail;
-using ClothesShoppingLibrary.DataAccess.Product;
-using ClothesShoppingLibrary.DataAccess.Role;
-using ClothesShoppingLibrary.DataAccess.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
-namespace ClothesShoppingLibrary.DataAccess
+namespace DTOLibrary
 {
-    public partial class MyDBContext : DbContext
+    public partial class lPVNgP26wKContext : DbContext
     {
-        public MyDBContext()
+        public lPVNgP26wKContext()
         {
         }
 
-        public MyDBContext(DbContextOptions<MyDBContext> options)
+        public lPVNgP26wKContext(DbContextOptions<lPVNgP26wKContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<CategoryDTO> Categories { get; set; }
-        public virtual DbSet<OrderDTO> Orders { get; set; }
-        public virtual DbSet<OrderDetailDTO> OrderDetails { get; set; }
-        public virtual DbSet<ProductDTO> Products { get; set; }
-        public virtual DbSet<RoleDTO> Roles { get; set; }
-        public virtual DbSet<UserDTO> Users { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         private string GetConnectionString()
         {
@@ -46,14 +40,14 @@ namespace ClothesShoppingLibrary.DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string connectionString = GetConnectionString();
-                optionsBuilder.UseMySQL(connectionString);
+                string strConnection = GetConnectionString();
+                optionsBuilder.UseMySQL(strConnection) ;
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CategoryDTO>(entity =>
+            modelBuilder.Entity<Category>(entity =>
             {
                 entity.ToTable("Category");
 
@@ -66,7 +60,7 @@ namespace ClothesShoppingLibrary.DataAccess
                     .HasMaxLength(100);
             });
 
-            modelBuilder.Entity<OrderDTO>(entity =>
+            modelBuilder.Entity<Order>(entity =>
             {
                 entity.HasComment("Orders Summary");
 
@@ -89,7 +83,7 @@ namespace ClothesShoppingLibrary.DataAccess
                     .HasConstraintName("UserFK");
             });
 
-            modelBuilder.Entity<OrderDetailDTO>(entity =>
+            modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.ToTable("OrderDetail");
 
@@ -120,7 +114,7 @@ namespace ClothesShoppingLibrary.DataAccess
                     .HasConstraintName("ProductFK");
             });
 
-            modelBuilder.Entity<ProductDTO>(entity =>
+            modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasKey(e => e.Productd)
                     .HasName("PRIMARY");
@@ -152,7 +146,7 @@ namespace ClothesShoppingLibrary.DataAccess
                     .HasConstraintName("CategoryFK");
             });
 
-            modelBuilder.Entity<RoleDTO>(entity =>
+            modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("Role");
 
@@ -165,7 +159,7 @@ namespace ClothesShoppingLibrary.DataAccess
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<UserDTO>(entity =>
+            modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("User");
 

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClothesShoppingLibrary.DataAccess.Product
+namespace DAOLibrary.Repository.Interface
 {
-    class ProductDAO
+    class IOrderDetailRepository
     {
     }
 }

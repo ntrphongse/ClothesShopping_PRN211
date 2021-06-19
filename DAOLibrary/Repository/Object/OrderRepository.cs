@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClothesShoppingLibrary.DataAccess.Role
+namespace DAOLibrary.Repository.Object
 {
-    class RoleDAO
+    class OrderRepository
     {
     }
 }

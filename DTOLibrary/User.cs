@@ -1,17 +1,15 @@
-﻿using ClothesShoppingLibrary.DataAccess.Order;
-using ClothesShoppingLibrary.DataAccess.Role;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 #nullable disable
 
-namespace ClothesShoppingLibrary.DataAccess.User
+namespace DTOLibrary
 {
-    public partial class UserDTO
+    public partial class User
     {
-        public UserDTO()
+        public User()
         {
-            Orders = new HashSet<OrderDTO>();
+            Orders = new HashSet<Order>();
         }
 
         public int UserId { get; set; }
@@ -25,7 +23,7 @@ namespace ClothesShoppingLibrary.DataAccess.User
         public int Role { get; set; }
         public bool Status { get; set; }
 
-        public virtual RoleDTO RoleNavigation { get; set; }
-        public virtual ICollection<OrderDTO> Orders { get; set; }
+        public virtual Role RoleNavigation { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
