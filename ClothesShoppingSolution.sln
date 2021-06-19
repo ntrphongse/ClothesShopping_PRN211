@@ -3,9 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClothesShoppingLibrary", "ClothesShoppingLibrary\ClothesShoppingLibrary.csproj", "{91B8ACF0-5789-484B-AFA4-DACDF80B258B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothesShoppingWebApp", "ClothesShoppingWebApp\ClothesShoppingWebApp.csproj", "{4D44057E-DBF2-4104-A032-F0B0F8B1EF2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClothesShoppingWebApp", "ClothesShoppingWebApp\ClothesShoppingWebApp.csproj", "{4D44057E-DBF2-4104-A032-F0B0F8B1EF2F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation Layer", "1. Presentation Layer", "{6A9246EC-E941-4CA4-9164-72BEC8655198}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Data Layer", "3. Data Layer", "{2EBAE124-AA5E-483C-ADB3-7AFF4438F8E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAOLibrary", "DAOLibrary\DAOLibrary.csproj", "{7452BE13-C119-428B-8838-B3C3766B40C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOLibrary", "DTOLibrary\DTOLibrary.csproj", "{03A132B7-C613-4195-9D33-B32C1C5771AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Business Layer", "2. Business Layer", "{CE377CCD-6E7C-497B-BE9B-54E6D3838BEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,17 +21,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{91B8ACF0-5789-484B-AFA4-DACDF80B258B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91B8ACF0-5789-484B-AFA4-DACDF80B258B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91B8ACF0-5789-484B-AFA4-DACDF80B258B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91B8ACF0-5789-484B-AFA4-DACDF80B258B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D44057E-DBF2-4104-A032-F0B0F8B1EF2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D44057E-DBF2-4104-A032-F0B0F8B1EF2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D44057E-DBF2-4104-A032-F0B0F8B1EF2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D44057E-DBF2-4104-A032-F0B0F8B1EF2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7452BE13-C119-428B-8838-B3C3766B40C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7452BE13-C119-428B-8838-B3C3766B40C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7452BE13-C119-428B-8838-B3C3766B40C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7452BE13-C119-428B-8838-B3C3766B40C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03A132B7-C613-4195-9D33-B32C1C5771AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03A132B7-C613-4195-9D33-B32C1C5771AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03A132B7-C613-4195-9D33-B32C1C5771AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03A132B7-C613-4195-9D33-B32C1C5771AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4D44057E-DBF2-4104-A032-F0B0F8B1EF2F} = {6A9246EC-E941-4CA4-9164-72BEC8655198}
+		{7452BE13-C119-428B-8838-B3C3766B40C7} = {2EBAE124-AA5E-483C-ADB3-7AFF4438F8E5}
+		{03A132B7-C613-4195-9D33-B32C1C5771AF} = {CE377CCD-6E7C-497B-BE9B-54E6D3838BEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB34089E-EFC6-4A92-95DB-04E49E26C2EC}

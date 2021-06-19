@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataAccess\" />
-    <Folder Include="Repository\" />
+    <ProjectReference Include="..\DTOLibrary\DTOLibrary.csproj" />
   </ItemGroup>
 
 </Project>
