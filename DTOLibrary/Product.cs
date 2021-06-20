@@ -7,6 +7,11 @@ namespace DTOLibrary
 {
     public partial class Product
     {
+        public Product()
+        {
+            OrderDetails = new HashSet<OrderDetail>();
+        }
+
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public int CategoryId { get; set; }
@@ -14,5 +19,8 @@ namespace DTOLibrary
         public int Quantity { get; set; }
         public string Image { get; set; }
         public bool Status { get; set; }
+
+        public virtual Category Category { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }
