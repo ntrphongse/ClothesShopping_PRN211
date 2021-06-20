@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -26,22 +24,12 @@ namespace DTOLibrary
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
-        private string GetConnectionString()
-        {
-            IConfiguration config = new ConfigurationBuilder()
-                                    .SetBasePath(Directory.GetCurrentDirectory())
-                                    .AddJsonFile("appsettings.json", true, true)
-                                    .Build();
-            var strConnection = config["ConnectionString:ClothesShoppingDB"];
-            return strConnection;
-        }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string strConnection = GetConnectionString();
-                optionsBuilder.UseMySQL(strConnection) ;
+                string strConnection = MyConnection.GetConnectionString();
+                optionsBuilder.UseMySQL(strConnection);
             }
         }
 
@@ -116,16 +104,13 @@ namespace DTOLibrary
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasKey(e => e.Productd)
-                    .HasName("PRIMARY");
-
                 entity.ToTable("Product");
 
                 entity.HasComment("Product Information");
 
                 entity.HasIndex(e => e.CategoryId, "CategoryFK");
 
-                entity.Property(e => e.Productd).HasColumnType("int(11)");
+                entity.Property(e => e.ProductId).HasColumnType("int(11)");
 
                 entity.Property(e => e.CategoryId).HasColumnType("int(11)");
 
