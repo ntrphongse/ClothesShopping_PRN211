@@ -41,7 +41,7 @@ namespace DTOLibrary
             if (!optionsBuilder.IsConfigured)
             {
                 string strConnection = GetConnectionString();
-                optionsBuilder.UseMySQL(strConnection) ;
+                optionsBuilder.UseMySQL(strConnection);
             }
         }
 
