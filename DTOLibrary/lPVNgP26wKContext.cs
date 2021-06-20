@@ -28,8 +28,7 @@ namespace DTOLibrary
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string strConnection = MyConnection.GetConnectionString();
-                optionsBuilder.UseMySQL(strConnection);
+                optionsBuilder.UseMySQL("server=remotemysql.com;port=3306;user=lPVNgP26wK;password=ZLcBo6Meqs;database=lPVNgP26wK");
             }
         }
 
