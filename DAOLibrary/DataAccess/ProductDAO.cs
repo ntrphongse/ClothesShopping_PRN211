@@ -33,7 +33,7 @@ namespace DAOLibrary.DataAccess
             try
             {
                 using var context = new lPVNgP26wKContext();
-                products = context.Products.ToList();
+                products = context.Products.Include(p => p.Category).ToList();
             } 
             catch (Exception ex)
             {
@@ -57,13 +57,13 @@ namespace DAOLibrary.DataAccess
             return product;
         }
 
-        public Product GetProductById(string Id)
+        public Product GetProductById(int Id)
         {
             Product product;
             try
             {
                 using var context = new lPVNgP26wKContext();
-                product = context.Products.FirstOrDefault(p => p.Productd == Id);
+                product = context.Products.FirstOrDefault(p => p.ProductId == Id);
             }
             catch (Exception ex)
             {
@@ -73,7 +73,7 @@ namespace DAOLibrary.DataAccess
         }
 
 
-        public List<Category> CreateGet()
+        public IEnumerable<Category> CreateGet()
         {
             List<Category> list;
             try
@@ -136,7 +136,17 @@ namespace DAOLibrary.DataAccess
         {
             try
             {
-                Product 
+                Product product = GetProductById(productId);
+                if(product != null)
+                {
+                    using var context = new lPVNgP26wKContext();
+                    context.Products.Remove(product);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("The product not already exist.");
+                }
             }
             catch (Exception ex)
             {

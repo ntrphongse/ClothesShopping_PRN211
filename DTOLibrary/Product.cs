@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -20,6 +21,7 @@ namespace DTOLibrary
         public string Image { get; set; }
         public bool Status { get; set; }
 
+        [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }

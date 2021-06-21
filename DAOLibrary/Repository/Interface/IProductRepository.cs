@@ -9,6 +9,11 @@ namespace DAOLibrary.Repository.Interface
 {
     public interface IProductRepository
     {
+        Product GetProductById(int id);
         IEnumerable<Product> GetProductList();
+        IEnumerable<Category> CreateGetProduct();
+        void CreatePostProduct(Product product);
+        void DeleteProduct(int productId);
+        void UpdateProduct(Product product);
     }
 }
