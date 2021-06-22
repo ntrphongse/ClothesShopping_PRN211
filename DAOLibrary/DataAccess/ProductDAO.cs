@@ -48,7 +48,7 @@ namespace DAOLibrary.DataAccess
             try
             {
                 using var context = new lPVNgP26wKContext();
-                product = context.Products.FirstOrDefault(p => p.ProductName == name);
+                product = context.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductName == name);
             }
             catch (Exception ex)
             {
@@ -63,7 +63,7 @@ namespace DAOLibrary.DataAccess
             try
             {
                 using var context = new lPVNgP26wKContext();
-                product = context.Products.FirstOrDefault(p => p.ProductId == Id);
+                product = context.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductId == Id);
             }
             catch (Exception ex)
             {
@@ -71,23 +71,6 @@ namespace DAOLibrary.DataAccess
             }
             return product;
         }
-
-
-        public IEnumerable<Category> CreateGet()
-        {
-            List<Category> list;
-            try
-            {
-                using var context = new lPVNgP26wKContext();
-                list = context.Categories.ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return list;
-        }
-
 
         public void CreatePost(Product product)
         {

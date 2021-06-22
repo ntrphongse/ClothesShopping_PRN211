@@ -3,6 +3,7 @@ using DAOLibrary.Repository.Object;
 using DTOLibrary;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,11 @@ namespace ClothesShoppingWebApp.Controllers
     public class ProductsController : Controller
     {
         IProductRepository productRepository = null;
+        ICategoryRepository categoryRepository = null;
         public ProductsController()
         {
             productRepository = new ProductRepository();
+            categoryRepository = new CategoryRepository();
         }
         // GET: ProductsController
         public ActionResult Index()
@@ -26,8 +29,7 @@ namespace ClothesShoppingWebApp.Controllers
 
         // GET: ProductsController/Details/5
         public ActionResult Details(int id)
-        {
-            
+        {       
             var product = productRepository.GetProductById(id);
             if (product == null)
             {
@@ -39,7 +41,7 @@ namespace ClothesShoppingWebApp.Controllers
         // GET: ProductsController/Create
         public ActionResult Create()
         {
-
+            ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName");
             return View();
         }
 
@@ -66,20 +68,33 @@ namespace ClothesShoppingWebApp.Controllers
         // GET: ProductsController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Product product = productRepository.GetProductById(id);
+            ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName", product.CategoryId);
+            return View(product);
         }
 
         // POST: ProductsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Product product)
         {
             try
             {
+                if (id != product.ProductId)
+                {
+                    return NotFound();
+                }
+
+                if(ModelState.IsValid)
+                {
+                    productRepository.UpdateProduct(product);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                ViewBag.Message = ex.Message;
                 return View();
             }
         }
@@ -87,20 +102,28 @@ namespace ClothesShoppingWebApp.Controllers
         // GET: ProductsController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            
+            var product = productRepository.GetProductById(id);
+            if(product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
         }
 
         // POST: ProductsController/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteConfirmed(int id)
         {
             try
             {
+                productRepository.DeleteProduct(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                ViewBag.Message = ex.Message;
                 return View();
             }
         }

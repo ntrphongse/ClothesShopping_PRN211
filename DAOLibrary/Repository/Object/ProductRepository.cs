@@ -23,7 +23,6 @@ namespace DAOLibrary.Repository.Object
 
         public void UpdateProduct(Product product) => ProductDAO.Instance.Update(product);
 
-        IEnumerable<Category> IProductRepository.CreateGetProduct() => ProductDAO.Instance.CreateGet();
         
     }
 }
