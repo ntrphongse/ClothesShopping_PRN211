@@ -21,9 +21,14 @@ namespace ClothesShoppingWebApp.Controllers
             categoryRepository = new CategoryRepository();
         }
         // GET: ProductsController
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
             var productList = productRepository.GetProductList();
+            
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                productList = productList.Where(p => p.ProductName.Contains(searchString) || p.ProductId.ToString().Contains(searchString));
+            }
             return View(productList);
         }
 
