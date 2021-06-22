@@ -11,8 +11,11 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-<form asp-controller="Products" asp-action="Index">
+<form asp-controller="Products" asp-action="Index" method="get">
     <p>
+        <select name="categoryId" asp-items="ViewBag.Category">
+            <option value="">All</option>
+        </select>
         Title: <input type="text" name="SearchString" />
         <input type="submit" value="Search" />
     </p>
