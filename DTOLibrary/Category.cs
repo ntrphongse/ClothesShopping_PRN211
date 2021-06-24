@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -13,6 +14,8 @@ namespace DTOLibrary
         }
 
         public int CategoryId { get; set; }
+
+        [Display(Name = "Category")]
         public string CategoryName { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }

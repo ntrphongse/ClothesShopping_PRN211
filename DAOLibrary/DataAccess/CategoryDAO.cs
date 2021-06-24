@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DTOLibrary;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,136 @@ using System.Threading.Tasks;
 
 namespace DAOLibrary.DataAccess
 {
-    class CategoryDAO
+    public class CategoryDAO
     {
+        private static CategoryDAO instance = null;
+        private static readonly object instanceLock = new object();
+        public static CategoryDAO Instance
+        {
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new CategoryDAO();
+                    }
+                    return instance;
+                }
+            }
+        }
+        //-----------------------------------------------------------------------------
+
+        public IEnumerable<Category> GetCategoryList()
+        {
+            var categoryList = new List<Category>();
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                categoryList = context.Categories.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return categoryList;
+
+        }
+
+        public Category GetCategoryById(int id)
+        {
+            Category category;
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                category = context.Categories.FirstOrDefault(c => c.CategoryId == id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return category;
+        }
+
+        public Category GetCategoryByName(string name)
+        {
+            Category category;
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                category = context.Categories.FirstOrDefault(c => c.CategoryName == name);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return category;
+        }
+
+        public void Create(Category category)
+        {
+            try
+            {
+                Category categoryObj = GetCategoryByName(category.CategoryName);
+                if (categoryObj == null)
+                {
+                    using var context = new lPVNgP26wKContext();
+                    context.Categories.Add(category);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("The category is already exist!");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void Update(Category category)
+        {
+            try
+            {
+                Category categoryObj = GetCategoryByName(category.CategoryName);
+                using var context = new lPVNgP26wKContext();
+                if (categoryObj == null)
+                {
+                    context.Categories.Update(category);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("The category is already exist!");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void Remove(int categoryId)
+        {
+            try
+            {
+                Category category = GetCategoryById(categoryId);
+                if (category != null)
+                {
+                    using var context = new lPVNgP26wKContext();
+                    context.Categories.Remove(category);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("The category not already exist.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
