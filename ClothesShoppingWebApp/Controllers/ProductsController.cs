@@ -108,6 +108,7 @@ namespace ClothesShoppingWebApp.Controllers
             catch (Exception ex)
             {
                 ViewBag.Message = ex.Message;
+                ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName", product.CategoryId);
                 return View();
             }
         }
