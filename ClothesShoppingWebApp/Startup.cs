@@ -1,8 +1,16 @@
 using ClothesShoppingWebApp.CustomHandler;
+using ClothesShoppingWebApp.Middlewares;
+using DAOLibrary.Repository.Interface;
+using DAOLibrary.Repository.Object;
 using DTOLibrary;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,25 +35,49 @@ namespace ClothesShoppingWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // Add Google Login
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    //options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                })
+                .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+                {
+                    options.ClientId = Configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                })
+                .AddCookie(config =>
+                {
+                    config.LoginPath = "/Login";
+                    config.LogoutPath = "/Login/LogOut";
+                    config.AccessDeniedPath = "/Login/UserAccessDenied";
+                });
+
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
+
             // Authorization
-            services.AddAuthentication("CookieAuthentication")
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie("CookieAuthentication", config =>
                 {
                     config.Cookie.Name = "UserLoginCookie";
                     config.LoginPath = "/Login";
+                    config.LogoutPath = "/Login/LogOut";
                     config.AccessDeniedPath = "/Login/UserAccessDenied";
                 });
+
             services.AddAuthorization(config =>
             {
                 config.AddPolicy("UserPolicy", policyBuilder =>
                 {
-                    policyBuilder.UserRequireCustomClaim(ClaimTypes.Email);
+                    policyBuilder.UserRequireCustomClaim(ClaimTypes.Role);
 
                 });
             });
+
             services.AddScoped<IAuthorizationHandler, PoliciesAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, RolesAuthorizationHandler>();
-            
+
             services.AddControllersWithViews();
 
             // Using Session
@@ -76,13 +108,16 @@ namespace ClothesShoppingWebApp
 
             app.UseAuthentication();
 
+            // Middleware
+            app.UseMiddleware<AddRoleIdentityMiddleware>();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}");
             });
         }
     }
