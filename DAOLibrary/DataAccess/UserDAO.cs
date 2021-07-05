@@ -43,5 +43,21 @@ namespace DAOLibrary.DataAccess
 
             return loginUser;
         }
+
+        public User GetUser(string email)
+        {
+            User user = null;
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                user = context.Users
+                        .Include(u => u.RoleNavigation)
+                        .SingleOrDefault(u => u.Email.Equals(email));
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return user;
+        }
     }
 }
