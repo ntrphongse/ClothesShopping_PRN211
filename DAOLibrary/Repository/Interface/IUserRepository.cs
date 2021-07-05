@@ -10,5 +10,6 @@ namespace DAOLibrary.Repository.Interface
     public interface IUserRepository
     {
         public User Login(string email, string password);
+        public User GetUser(string email);
     }
 }
