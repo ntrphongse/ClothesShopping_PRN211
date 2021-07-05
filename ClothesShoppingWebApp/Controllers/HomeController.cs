@@ -25,6 +25,7 @@ namespace ClothesShoppingWebApp.Controllers
             return View();
         }
 
+        [Authorize(Policy = "UserPolicy")]
         public IActionResult Privacy()
         {
             return View();
