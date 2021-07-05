@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAOLibrary.Repository.Interface
 {
-    class IRoleRepository
+    public interface IRoleRepository
     {
     }
 }
