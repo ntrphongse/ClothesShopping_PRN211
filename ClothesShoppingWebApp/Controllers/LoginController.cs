@@ -2,6 +2,8 @@
 using DAOLibrary.Repository.Object;
 using DTOLibrary;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,17 +23,28 @@ namespace ClothesShoppingWebApp.Controllers
         {
             userRepository = new UserRepository();
         }
+
         // GET: Login
+        [AllowAnonymous]
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
+
         // POST: Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index([FromForm] string email, 
             [FromForm] string password)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             try
             {
                 ViewBag.Email = email;
@@ -52,9 +65,7 @@ namespace ClothesShoppingWebApp.Controllers
                     var userClaims = new List<Claim>()
                     {
                         new Claim("UserId", loginUser.UserId.ToString()),
-                        new Claim(ClaimTypes.Name, loginUser.FullName),
                         new Claim(ClaimTypes.Email, loginUser.Email),
-                        new Claim(ClaimTypes.DateOfBirth, loginUser.Birthday.ToString()),
                         new Claim(ClaimTypes.Role, loginUser.RoleNavigation.RoleName)
                     };
 
@@ -63,7 +74,7 @@ namespace ClothesShoppingWebApp.Controllers
                     var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
                     HttpContext.SignInAsync(userPrincipal);
                 }
-                return View();
+                return RedirectToAction("Index", "Home");
             } catch (Exception ex)
             {
                 ViewBag.Message = ex.Message;
@@ -75,10 +86,47 @@ namespace ClothesShoppingWebApp.Controllers
         {
             return View();
         }
-        public IActionResult LogOut()
+
+        [AllowAnonymous]
+        public IActionResult Google()
         {
-            HttpContext.SignOutAsync();
-            return RedirectToAction("Index", "Login");
+            var authenticationProperties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleCallback")
+            };
+            return Challenge(authenticationProperties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> GoogleCallback()
+        {
+            var request = HttpContext.Request;
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("External authentication error");
+            }
+
+            var externalUser = result.Principal;
+            if (externalUser == null)
+            {
+                throw new Exception("External authentication error");
+            }
+
+            var email = externalUser.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
+            IUserRepository _userRepository = new UserRepository();
+            User user = _userRepository.GetUser(email);
+
+            if (user != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                await HttpContext.SignOutAsync();
+                return Json("Unauthenticated!!");
+            }
         }
     }
 }
