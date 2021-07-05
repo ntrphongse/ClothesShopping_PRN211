@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DAOLibrary.Repository.Interface;
+using DAOLibrary.Repository.Object;
+using DTOLibrary;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ClothesShoppingWebApp.CustomHandler
@@ -16,13 +21,20 @@ namespace ClothesShoppingWebApp.CustomHandler
                 return Task.CompletedTask;
             }
 
-            var hasClaim = context.User.Claims.Any(x => x.Type == requirement.ClaimType);
-            if (hasClaim)
+            var claims = context.User.Claims;
+            var hasClaim = claims.Any(x => x.Type == requirement.ClaimType);
+            if (!hasClaim)
             {
-                context.Succeed(requirement);
+                context.Fail();
                 return Task.CompletedTask;
             }
-            context.Fail();
+            var role = claims.FirstOrDefault(c => c.Type.Equals(requirement.ClaimType));
+            if (role != null && role.Value.Equals("Admin"))
+            {
+                context.Fail();
+                return Task.CompletedTask;
+            }
+            context.Succeed(requirement);
             return Task.CompletedTask;
         }
     }

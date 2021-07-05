@@ -1,9 +1,13 @@
-﻿using DTOLibrary;
+﻿using DAOLibrary.Repository.Interface;
+using DAOLibrary.Repository.Object;
+using DTOLibrary;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ClothesShoppingWebApp.CustomHandler
@@ -26,10 +30,13 @@ namespace ClothesShoppingWebApp.CustomHandler
             else
             {
                 var claims = context.User.Claims;
-                var userId = claims.FirstOrDefault(c => c.Type == "UserId").Value;
-                var roles = requirement.AllowedRoles;
-
-                validRole = new lPVNgP26wKContext().Users.Where(us => roles.Contains(us.RoleNavigation.RoleName) && us.UserId == int.Parse(userId)).Any();
+                var role = claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Role));
+                
+                if (role != null)
+                {
+                    var roles = requirement.AllowedRoles;
+                    validRole = roles.Contains(role.Value);
+                }
             }
             if (validRole)
             {
@@ -40,5 +47,6 @@ namespace ClothesShoppingWebApp.CustomHandler
             }
             return Task.CompletedTask;
         }
+        
     }
 }
