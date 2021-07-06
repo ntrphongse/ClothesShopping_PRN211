@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DAOLibrary.Repository.Object
 {
-    class RoleRepository
+    public class RoleRepository
     {
+
     }
 }

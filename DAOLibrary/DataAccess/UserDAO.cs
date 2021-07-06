@@ -59,5 +59,20 @@ namespace DAOLibrary.DataAccess
             }
             return user;
         }
+
+        public IEnumerable<User> GetUserList()
+        {
+            var users = new  List<User>();
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                users = context.Users.Include(u => u.RoleNavigation).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return users;
+        }
     }
 }
