@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -23,6 +24,7 @@ namespace DTOLibrary
         public int Role { get; set; }
         public bool Status { get; set; }
 
+        [Display (Name = "Role")]
         public virtual Role RoleNavigation { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }

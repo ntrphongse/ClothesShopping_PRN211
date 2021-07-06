@@ -13,5 +13,7 @@ namespace DAOLibrary.Repository.Interface
         public User GetUser(string email);
 
         IEnumerable<User> GetUserList();
+
+        User GetUserById(int id);
     }
 }

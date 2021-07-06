@@ -13,6 +13,8 @@ namespace DAOLibrary.Repository.Object
     {
         public User GetUser(string email) => UserDAO.Instance.GetUser(email);
 
+        public User GetUserById(int id) => UserDAO.Instance.GetUserById(id);
+        
         public IEnumerable<User> GetUserList() => UserDAO.Instance.GetUserList();
         
         public User Login(string email, string password)

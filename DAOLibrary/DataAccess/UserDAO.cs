@@ -74,5 +74,20 @@ namespace DAOLibrary.DataAccess
             }
             return users;
         }
+
+        public User GetUserById(int Id)
+        {
+            User user;
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                user = context.Users.Include(u => u.RoleNavigation).FirstOrDefault(u => u.UserId == Id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return user;
+        }
     }
 }
