@@ -24,14 +24,6 @@ namespace DTOLibrary
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseMySQL("server=remotemysql.com;port=3306;user=lPVNgP26wK;password=ZLcBo6Meqs;database=lPVNgP26wK");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>(entity =>

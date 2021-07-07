@@ -1,4 +1,5 @@
 ﻿using ClothesShoppingWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,11 +19,13 @@ namespace ClothesShoppingWebApp.Controllers
             _logger = logger;
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Policy = "UserPolicy")]
         public IActionResult Privacy()
         {
             return View();
