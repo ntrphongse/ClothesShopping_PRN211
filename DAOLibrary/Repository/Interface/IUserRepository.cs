@@ -12,5 +12,6 @@ namespace DAOLibrary.Repository.Interface
         public User Login(string email, string password);
         public User GetUser(string email);
         public void SignUp(User user);
+        public void Update(User user);
     }
 }
