@@ -59,5 +59,19 @@ namespace DAOLibrary.DataAccess
             }
             return user;
         }
+
+        public void SignUp(User user)
+        {
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                context.Users.Add(user);
+                context.SaveChanges();
+
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
