@@ -35,7 +35,7 @@ namespace ClothesShoppingWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddControllersWithViews();
             // Add Google Login
             services.AddAuthentication(options =>
                 {
@@ -112,6 +112,9 @@ namespace ClothesShoppingWebApp
             app.UseMiddleware<AddRoleIdentityMiddleware>();
 
             app.UseAuthorization();
+
+            //Add UseSession
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
