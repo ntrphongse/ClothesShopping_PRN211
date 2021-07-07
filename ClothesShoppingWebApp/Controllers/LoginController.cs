@@ -54,12 +54,12 @@ namespace ClothesShoppingWebApp.Controllers
                     ViewBag.Message = "Login failed";
                 } else
                 {
-                    // Get Session
-                    ISession session = HttpContext.Session;
+                    //// Get Session
+                    //ISession session = HttpContext.Session;
 
-                    // Store Login user to Session
-                    session.SetString("LOGIN_USER", loginUser.UserId.ToString());
-                    ViewBag.Message = "Login successfully!";
+                    //// Store Login user to Session
+                    //session.SetString("LOGIN_USER", loginUser.UserId.ToString());
+                    //ViewBag.Message = "Login successfully!";
 
                     // Authorize
                     var userClaims = new List<Claim>()
@@ -100,32 +100,41 @@ namespace ClothesShoppingWebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GoogleCallback()
         {
-            var request = HttpContext.Request;
-            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            if (!result.Succeeded)
+            try
             {
-                throw new Exception("External authentication error");
-            }
+                var request = HttpContext.Request;
+                var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            var externalUser = result.Principal;
-            if (externalUser == null)
-            {
-                throw new Exception("External authentication error");
-            }
+                if (!result.Succeeded)
+                {
+                    throw new Exception("External authentication error");
+                }
 
-            var email = externalUser.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
-            IUserRepository _userRepository = new UserRepository();
-            User user = _userRepository.GetUser(email);
+                var externalUser = result.Principal;
+                if (externalUser == null)
+                {
+                    throw new Exception("External authentication error");
+                }
 
-            if (user != null)
+                var email = externalUser.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
+                IUserRepository _userRepository = new UserRepository();
+                User user = _userRepository.GetUser(email);
+
+                if (user != null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    await HttpContext.SignOutAsync();
+                    //TempData["Email"] = email;
+                    string fullname = externalUser.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
+                    return RedirectToAction("Index", "Signup", new { email, fullname });
+                }
+            } catch (Exception ex)
             {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                await HttpContext.SignOutAsync();
-                return Json("Unauthenticated!!");
+                ViewBag.Message = ex.Message;
+                return View();
             }
         }
     }
