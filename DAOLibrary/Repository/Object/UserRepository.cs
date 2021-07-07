@@ -11,6 +11,8 @@ namespace DAOLibrary.Repository.Object
 {
     public class UserRepository : IUserRepository
     {
+        public void DeleteUser(int userId) => UserDAO.Instance.Remove(userId);
+        
         public User GetUser(string email) => UserDAO.Instance.GetUser(email);
 
         public User GetUserById(int id) => UserDAO.Instance.GetUserById(id);
@@ -21,5 +23,10 @@ namespace DAOLibrary.Repository.Object
         {
             return UserDAO.Instance.Login(email, password);
         }
+
+        public void SetAccountStatus(int id, bool status) => UserDAO.Instance.SetAccountStatus(id, status);
+        
+        public void UpdateUser(User user) => UserDAO.Instance.Update(user);
+        
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
+using DTOLibrary;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,7 @@ namespace ClothesShoppingWebApp.Controllers
     public class UsersController : Controller
     {
         IUserRepository userRepository = null;
+
         public UsersController()
         {
             userRepository = new UserRepository();
@@ -59,22 +61,51 @@ namespace ClothesShoppingWebApp.Controllers
         // GET: UsersController/Edit/5
         public ActionResult Edit(int id)
         {
+            User user = userRepository.GetUserById(id);
             return View();
         }
 
         // POST: UsersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, User user)
         {
             try
             {
+                if (id != user.UserId)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    userRepository.UpdateUser(user);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Message = ex.Message;
+                return RedirectToAction(nameof(Index));
             }
+        }
+
+        [HttpPost]
+        public ActionResult SetStatus([FromForm] int id, [FromForm] bool statusVal)
+        {
+
+            try
+            {
+                userRepository.SetAccountStatus(id, statusVal);
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.Message;
+
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: UsersController/Delete/5

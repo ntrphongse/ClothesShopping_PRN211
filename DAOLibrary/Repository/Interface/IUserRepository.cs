@@ -15,5 +15,9 @@ namespace DAOLibrary.Repository.Interface
         IEnumerable<User> GetUserList();
 
         User GetUserById(int id);
+        void UpdateUser(User user);
+        void DeleteUser(int userId);
+
+        void SetAccountStatus(int id, bool status);
     }
 }

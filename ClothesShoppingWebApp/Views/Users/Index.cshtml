@@ -26,59 +26,86 @@
                 @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Gender)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Birthday)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.RoleNavigation.RoleName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Birthday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoleNavigation.RoleName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @if (String.IsNullOrEmpty(item.PhoneNumber))
+                    {
+                        <span>No info yet</span>
+                    }
+                    else @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @if (String.IsNullOrEmpty(item.Birthday.ToString()))
+                    {
+                        <span>No info yet</span>
+                    }
+                    else @Html.DisplayFor(modelItem => item.Birthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleNavigation.RoleName)
+                </td>
+                <td>
+                    <form asp-action="SetStatus">
+                        <input class="form-check-input" type="checkbox" checked="@item.Status" id="chkStatus"/>
+                        <button type="submit" class="btn btn-primary updateButton" data-userid="@item.UserId">Update</button>
+                    </form>
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+          $(document).ready(function () {
+              $(".updateButton").click(function (event) {
+                  event.preventDefault();
+                  var productid = $(this).attr("data-userid");
+                  var status = $("#chkStatus").is(":checked");
+                  $.ajax({
+                      type: "POST",
+                      url: "@Url.Action("SetStatus")",
+                      data: {
+                          id: productid,
+                          statusVal:status
+                      },
+                      success: function (result) {
+                          window.location.href = "@Url.Action("Index")";
+                      }
+                  });
+              });
+          });
+    </script>
+}

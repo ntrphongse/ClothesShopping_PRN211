@@ -16,7 +16,7 @@ namespace DAOLibrary.DataAccess
         {
             get
             {
-                lock(instanceLock)
+                lock (instanceLock)
                 {
                     if (instance == null)
                     {
@@ -36,7 +36,8 @@ namespace DAOLibrary.DataAccess
                 loginUser = context.Users
                                 .Include(u => u.RoleNavigation)
                                 .SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password));
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -53,7 +54,8 @@ namespace DAOLibrary.DataAccess
                 user = context.Users
                         .Include(u => u.RoleNavigation)
                         .SingleOrDefault(u => u.Email.Equals(email));
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -62,7 +64,7 @@ namespace DAOLibrary.DataAccess
 
         public IEnumerable<User> GetUserList()
         {
-            var users = new  List<User>();
+            var users = new List<User>();
             try
             {
                 using var context = new lPVNgP26wKContext();
@@ -88,6 +90,58 @@ namespace DAOLibrary.DataAccess
                 throw new Exception(ex.Message);
             }
             return user;
+        }
+
+        public void Update(User user)
+        {
+            try
+
+            {
+                using var context = new lPVNgP26wKContext();
+                context.Users.Update(user);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void SetAccountStatus(int id, bool statusVal)
+        {
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                User user = GetUserById(id);
+                user.Status = statusVal;
+                context.Users.Update(user);
+                context.SaveChanges();
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void Remove(int userId)
+        {
+            try
+            {
+                User user = GetUserById(userId);
+                if (user != null)
+                {
+                    using var context = new lPVNgP26wKContext();
+                    context.Users.Remove(user);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("The product not already exist.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
