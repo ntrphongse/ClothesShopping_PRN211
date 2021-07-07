@@ -32,7 +32,16 @@
                         @if (User.Claims.FirstOrDefault(cl => cl.Type == ClaimTypes.Email) != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Logout" asp-action="Index">Log Out</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Logout" asp-action="Index">Log out</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Log in</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Signup" asp-action="Index">Sign up</a>
                             </li>
                         }
                     </ul>
