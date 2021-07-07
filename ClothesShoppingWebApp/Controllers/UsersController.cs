@@ -92,12 +92,11 @@ namespace ClothesShoppingWebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult SetStatus([FromForm] int id, [FromForm] bool statusVal)
+        public ActionResult SetStatus([FromForm] int id, [FromForm] bool status)
         {
-
             try
             {
-                userRepository.SetAccountStatus(id, statusVal);
+                userRepository.SetAccountStatus(id, status);
 
             }
             catch (Exception ex)
