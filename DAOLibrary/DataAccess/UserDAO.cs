@@ -73,5 +73,18 @@ namespace DAOLibrary.DataAccess
                 throw new Exception(ex.Message);
             }
         }
+
+        public void Update(User user)
+        {
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                context.Users.Update(user);
+                context.SaveChanges();
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
