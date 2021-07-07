@@ -16,5 +16,7 @@ namespace DAOLibrary.Repository.Object
         public User Login(string email, string password) => UserDAO.Instance.Login(email, password);
 
         public void SignUp(User user) => UserDAO.Instance.SignUp(user);
+
+        public void Update(User user) => UserDAO.Instance.Update(user);
     }
 }
