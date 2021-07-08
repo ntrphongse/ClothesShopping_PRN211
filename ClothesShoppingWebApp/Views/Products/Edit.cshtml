@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" id="productForm" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductId" />
             <div class="form-group">
@@ -34,18 +34,22 @@
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
+
+            <img src="@Model.Image" width="120" height="120" />
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
+                <label asp-for="Image" class="control-label"></label> (optional)
+                <input asp-for="Image" id="uploadedImg" hidden />
+                <input type="file" id="image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <button class="btn btn-primary" type="button" onclick="updateItem('@Model.Image')">Update</button>
             </div>
         </form>
     </div>
@@ -57,4 +61,52 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyAJrQ2G9NZaFKlN4U43kt-0_4DpAjGVzgc",
+            authDomain: "clothshopping-6fd63.firebaseapp.com",
+            projectId: "clothshopping-6fd63",
+            storageBucket: "clothshopping-6fd63.appspot.com",
+            messagingSenderId: "274541815825",
+            appId: "1:274541815825:web:a973b0960ce601c60129b0",
+            measurementId: "G-NZ69P8X0JT"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+    <script>
+        function updateItem(oldUrl) {
+            const ref = firebase.storage().ref();
+            const file = document.querySelector("#image").files[0];
+            if (file != null) {
+                const metadata = {
+                    contentType: file.type
+                };
+                const name = file.name;
+                const uploadIMG = ref.child(name).put(file, metadata);
+                uploadIMG
+                    .then(snapshot => snapshot.ref.getDownloadURL())
+                    .then(url => {
+                        $("#uploadedImg").val(url);
+                        $("#productForm").submit();
+                    })
+                    .catch(console.error)
+            } else {
+                $("#uploadedImg").val(oldUrl);
+                $("#productForm").submit();
+            }
+        }
+    </script>
 }

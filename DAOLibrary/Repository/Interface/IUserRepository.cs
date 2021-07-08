@@ -11,7 +11,18 @@ namespace DAOLibrary.Repository.Interface
     {
         public User Login(string email, string password);
         public User GetUser(string email);
+
+
+        IEnumerable<User> GetUserList();
+
+        User GetUserById(int id);
+        void UpdateUser(User user);
+        void DeleteUser(int userId);
+
+        void SetAccountStatus(int id, bool status);
+
         public void SignUp(User user);
         public void Update(User user);
+
     }
 }
