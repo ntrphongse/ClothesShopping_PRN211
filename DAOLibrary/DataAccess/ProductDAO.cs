@@ -97,8 +97,8 @@ namespace DAOLibrary.DataAccess
         {
             try
             {
-                IEnumerable<Product> list = GetProductList();
-                list.ToList().Remove(product);
+                List<Product> list = GetProductList().ToList();
+                list.RemoveAll(p => p.ProductId == product.ProductId);  
                 using var context = new lPVNgP26wKContext();
                 Product producTest = list.FirstOrDefault(p => p.ProductName.Trim().ToUpper() == product.ProductName.Trim().ToUpper());
                 

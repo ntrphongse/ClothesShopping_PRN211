@@ -15,8 +15,8 @@
                 contentType: "img/png"
             };
 
-            //const name = "UserAvatar_" + $("#UserId").val() + ".png";
-            const name = "UserAvatar_Default.png";
+            const name = "UserAvatar_" + $("#UserId").val() + ".png";
+            //const name = "UserAvatar_Default.png";
 
             const uploadIMG = ref.child(name).put(file, metadata);
             uploadIMG

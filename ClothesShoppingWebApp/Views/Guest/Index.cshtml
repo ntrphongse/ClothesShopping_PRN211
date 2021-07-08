@@ -1,6 +1,7 @@
 ﻿@model dynamic
 
 @{
+    ViewData["Title"] = "Guest";
     Layout = "~/Views/Shared/_LayoutGuest.cshtml";
 }
 @{
@@ -76,9 +77,18 @@
                                     </div>
                                 }
                             }
+
+
+
                         </div>
                     </div>
                 </div>
+            }
+            else
+            {
+                <p class="text-info" style="margin:2rem;">
+                    No result matched!
+                </p><br />
             }
         </div>
     </div>

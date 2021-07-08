@@ -86,6 +86,8 @@ namespace ClothesShoppingWebApp.Controllers
             return View(product);
         }
 
+
+
         // POST: ProductsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]

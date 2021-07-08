@@ -1,0 +1,116 @@
+﻿@model IEnumerable<DTOLibrary.User>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoleNavigation.RoleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @if (String.IsNullOrEmpty(item.PhoneNumber))
+                    {
+                        <span>No info yet</span>
+                    }
+                    else @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @if (String.IsNullOrEmpty(item.Address))
+                    {
+                        <span>No info yet</span>
+                    }
+                    else @Html.DisplayFor(modelItem => item.Address)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @if (String.IsNullOrEmpty(item.Birthday.ToString()))
+                    {
+                        <span>No info yet</span>
+                    }
+                    else @Html.DisplayFor(modelItem => item.Birthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleNavigation.RoleName)
+                </td>
+                <td>
+                    <form asp-action="SetStatus">
+                        <input class="form-check-input" type="checkbox" checked="@item.Status" value="ON" id="@($"item-{item.UserId}")" />
+                        <button type="submit" class="btn btn-primary updateButton" data-userid="@item.UserId">Update</button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+          $(document).ready(function () {
+              $(".updateButton").click(function (event) {
+                  event.preventDefault();
+                  var productid = $(this).attr("data-userid");
+                  var status = $("#item-" + productid).is(":checked");
+                  $.ajax({
+                      type: "POST",
+                      url: "@Url.Action("SetStatus")",
+                      data: {
+                          id: productid,
+                          status: status
+                      },
+                      success: function (result) {
+                          window.location.href = "@Url.Action("Index")";
+                      }
+                  });
+              });
+          });
+    </script>
+}

@@ -16,7 +16,7 @@ namespace DAOLibrary.DataAccess
         {
             get
             {
-                lock(instanceLock)
+                lock (instanceLock)
                 {
                     if (instance == null)
                     {
@@ -36,7 +36,8 @@ namespace DAOLibrary.DataAccess
                 loginUser = context.Users
                                 .Include(u => u.RoleNavigation)
                                 .SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password));
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -53,11 +54,57 @@ namespace DAOLibrary.DataAccess
                 user = context.Users
                         .Include(u => u.RoleNavigation)
                         .SingleOrDefault(u => u.Email.Equals(email));
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
             return user;
+        }
+
+        public IEnumerable<User> GetUserList()
+        {
+            var users = new List<User>();
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                users = context.Users.Include(u => u.RoleNavigation).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return users;
+        }
+
+        public User GetUserById(int Id)
+        {
+            User user;
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                user = context.Users.Include(u => u.RoleNavigation).FirstOrDefault(u => u.UserId == Id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return user;
+        }
+
+
+        public void Update(User user)
+        {
+            try
+
+            {
+                using var context = new lPVNgP26wKContext();
+                context.Users.Update(user);
+                context.SaveChanges();
+            }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void SignUp(User user)
@@ -74,7 +121,22 @@ namespace DAOLibrary.DataAccess
             }
         }
 
+
+        public void SetAccountStatus(int id, bool statusVal)
+   {
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                User user = GetUserById(id);
+                user.Status = statusVal;
+              } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public void Update(User user)
+
         {
             try
             {
@@ -86,5 +148,29 @@ namespace DAOLibrary.DataAccess
                 throw new Exception(ex.Message);
             }
         }
+
+
+        public void Remove(int userId)
+        {
+            try
+            {
+                User user = GetUserById(userId);
+                if (user != null)
+                {
+                    using var context = new lPVNgP26wKContext();
+                    context.Users.Remove(user);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("The product not already exist.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }
