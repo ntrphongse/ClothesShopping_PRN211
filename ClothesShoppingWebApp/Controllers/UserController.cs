@@ -13,14 +13,9 @@ namespace ClothesShoppingWebApp.Controllers
 {
     public class UserController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [Authorize(Roles = "User")]
         [HttpGet]
-        public IActionResult Update()
+        public IActionResult Index()
         {
             try
             {
@@ -51,7 +46,7 @@ namespace ClothesShoppingWebApp.Controllers
         [Authorize(Roles = "User")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(UserEditModel user)
+        public IActionResult Index(UserEditModel user)
         {
             try
             {
