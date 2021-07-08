@@ -26,6 +26,7 @@ namespace DTOLibrary
         public bool? Gender { get; set; }
         public DateTime? Birthday { get; set; }
         public int Role { get; set; }
+        [Display (Name = "Active")]
         public bool Status { get; set; }
 
 

@@ -20,6 +20,8 @@ namespace DTOLibrary
         public float Price { get; set; }
         public int Quantity { get; set; }
         public string Image { get; set; }
+
+        [Display (Name = "Active")]
         public bool Status { get; set; }
 
         
