@@ -25,6 +25,7 @@ namespace DTOLibrary
         public string Password { get; set; }
         public bool? Gender { get; set; }
         public DateTime? Birthday { get; set; }
+        public string Avatar { get; set; }
         public int Role { get; set; }
         [Display (Name = "Active")]
         public bool Status { get; set; }

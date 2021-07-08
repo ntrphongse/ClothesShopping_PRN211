@@ -92,6 +92,7 @@ namespace DAOLibrary.DataAccess
             return user;
         }
 
+
         public void Update(User user)
         {
             try
@@ -101,19 +102,45 @@ namespace DAOLibrary.DataAccess
                 context.Users.Update(user);
                 context.SaveChanges();
             }
-            catch (Exception ex)
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void SignUp(User user)
+        {
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                context.Users.Add(user);
+                context.SaveChanges();
+
+            } catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
+
         public void SetAccountStatus(int id, bool statusVal)
-        {
+   {
             try
             {
                 using var context = new lPVNgP26wKContext();
                 User user = GetUserById(id);
                 user.Status = statusVal;
+              } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void Update(User user)
+
+        {
+            try
+            {
+                using var context = new lPVNgP26wKContext();
                 context.Users.Update(user);
                 context.SaveChanges();
             } catch (Exception ex)
@@ -121,6 +148,7 @@ namespace DAOLibrary.DataAccess
                 throw new Exception(ex.Message);
             }
         }
+
 
         public void Remove(int userId)
         {
@@ -143,5 +171,6 @@ namespace DAOLibrary.DataAccess
                 throw new Exception(ex.Message);
             }
         }
+
     }
 }

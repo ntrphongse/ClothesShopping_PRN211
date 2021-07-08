@@ -1,12 +1,14 @@
 ﻿using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
 using DTOLibrary;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -51,15 +53,16 @@ namespace ClothesShoppingWebApp.Controllers
                 User loginUser = userRepository.Login(email, password);
                 if (loginUser == null)
                 {
-                    ViewBag.Message = "Login failed";
+                    ViewBag.Message = "Login failed! Please check your email and password";
+                    return View();
                 } else
                 {
-                    // Get Session
-                    ISession session = HttpContext.Session;
+                    //// Get Session
+                    //ISession session = HttpContext.Session;
 
-                    // Store Login user to Session
-                    session.SetString("LOGIN_USER", loginUser.UserId.ToString());
-                    ViewBag.Message = "Login successfully!";
+                    //// Store Login user to Session
+                    //session.SetString("LOGIN_USER", loginUser.UserId.ToString());
+                    //ViewBag.Message = "Login successfully!";
 
                     // Authorize
                     var userClaims = new List<Claim>()
@@ -100,33 +103,166 @@ namespace ClothesShoppingWebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GoogleCallback()
         {
-            var request = HttpContext.Request;
-            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            if (!result.Succeeded)
+            try
             {
-                throw new Exception("External authentication error");
-            }
+                var request = HttpContext.Request;
+                var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            var externalUser = result.Principal;
-            if (externalUser == null)
-            {
-                throw new Exception("External authentication error");
-            }
+                if (!result.Succeeded)
+                {
+                    throw new Exception("External authentication error");
+                }
 
-            var email = externalUser.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
-            IUserRepository _userRepository = new UserRepository();
-            User user = _userRepository.GetUser(email);
+                var externalUser = result.Principal;
+                if (externalUser == null)
+                {
+                    throw new Exception("External authentication error");
+                }
 
-            if (user != null)
+                var email = externalUser.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
+                IUserRepository _userRepository = new UserRepository();
+                User user = _userRepository.GetUser(email);
+
+                if (user != null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    await HttpContext.SignOutAsync();
+                    //TempData["Email"] = email;
+                    string fullname = externalUser.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
+                    return RedirectToAction("Index", "Signup", new { email, fullname });
+                }
+            } catch (Exception ex)
             {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                await HttpContext.SignOutAsync();
-                return Json("Unauthenticated!!");
+                ViewBag.Message = ex.Message;
+                return View();
             }
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            string email = string.Empty;
+            if (User.Identity.IsAuthenticated)
+            {
+                // User is authenticated
+                email = User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
+            }
+
+            ViewBag.Email = email;
+            return View();
+        }
+        
+        private string GeneratePassword(int minLength, int maxLength)
+        {
+            string password = string.Empty;
+
+            var chars = "Z!X@C#V$B%N^M&L*K(J)H.G/FDSAQWERTYUIOPzxcvbnmlkjhgfdsaqwertyuiop0123456789";
+            var random = new Random();
+            try
+            {
+                int length = random.Next(minLength, maxLength);
+                var passwordChars = new char[length];
+
+                for (int i = 0; i < length; i++)
+                {
+                    passwordChars[i] = chars[random.Next(chars.Length)];
+                }
+
+                password = new string(passwordChars);
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return password;
+        }
+
+        // Build Email Message
+        private MimeMessage GenerateMessage(string fullname, string email, string password)
+        {
+            MimeMessage message = null;
+            try
+            {
+                message = new MimeMessage();
+
+                MailboxAddress from = new MailboxAddress("Clothes Shopping", "noreply@clothesshopping.com");
+                message.From.Add(from);
+
+                MailboxAddress to = new MailboxAddress(fullname, email);
+                message.To.Add(to);
+
+                message.Subject = "Reset your Password - Clothes Shopping";
+
+                BodyBuilder bodyBuilder = new BodyBuilder();
+                bodyBuilder.HtmlBody = $"<h2>Reset your Password</h2>" +
+                    $"<p>Dear {fullname},</p>" +
+                    $"<p>We had recently received a request from our website to reset your password. " +
+                    $"<strong>If you don't actually do this, please ignore this email and check your account at our website!</strong></p>" +
+                    $"<h3>Your new Login Information</h3>" +
+                    $"<p>Email: {email}</p>" +
+                    $"<p>New Password: <strong><em>{password}</em></strong></p>" +
+                    $"<p>Thank you for using our services!</p>" +
+                    $"<p></p>" +
+                    $"<p><em>This is automatic email, please do not reply to this email!!!</em></p>";
+
+                message.Body = bodyBuilder.ToMessageBody();
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return message;
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ForgotPassword(string email)
+        {
+            try
+            {
+                if (email != null && !string.IsNullOrEmpty(email))
+                {
+                    // Get User
+                    IUserRepository userRepository = new UserRepository();
+                    User user = userRepository.GetUser(email);
+                    if (user != null)
+                    {
+                        string fullname = user.FullName;
+                        string newPassword = GeneratePassword(8, 15);
+
+                        // Get Message
+                        MimeMessage message = GenerateMessage(fullname, email, newPassword);
+
+                        // Mail Server
+                        SmtpClient client = new SmtpClient();
+                        client.Connect("smtp.gmail.com", 465, true);
+                        client.Authenticate("n.tranphongse@gmail.com", "ugcrjrkbbcrnmjux");
+
+                        // Send
+                        client.Send(message);
+                        client.Disconnect(true);
+                        client.Dispose();
+
+                        // Set new Password
+                        user.Password = newPassword;
+                        userRepository.Update(user);
+
+                        HttpContext.SignOutAsync();
+                    }
+                    ViewBag.Success = "An email with your new Password is sent to <strong>" + email + "</strong>." +
+                        " If the email is existed in our system, you will receive the new password soon!";
+
+                } else
+                {
+                    throw new Exception("Email cannot be empty!");
+                }
+            } catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+            }
+            return View();
+        }
+
     }
 }

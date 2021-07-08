@@ -18,15 +18,15 @@ namespace DAOLibrary.Repository.Object
         public User GetUserById(int id) => UserDAO.Instance.GetUserById(id);
         
         public IEnumerable<User> GetUserList() => UserDAO.Instance.GetUserList();
-        
-        public User Login(string email, string password)
-        {
-            return UserDAO.Instance.Login(email, password);
-        }
 
         public void SetAccountStatus(int id, bool status) => UserDAO.Instance.SetAccountStatus(id, status);
         
         public void UpdateUser(User user) => UserDAO.Instance.Update(user);
         
+        public User Login(string email, string password) => UserDAO.Instance.Login(email, password);
+
+        public void SignUp(User user) => UserDAO.Instance.SignUp(user);
+
+        public void Update(User user) => UserDAO.Instance.Update(user);
     }
 }
