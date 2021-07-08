@@ -53,7 +53,8 @@ namespace ClothesShoppingWebApp.Controllers
                 User loginUser = userRepository.Login(email, password);
                 if (loginUser == null)
                 {
-                    ViewBag.Message = "Login failed";
+                    ViewBag.Message = "Login failed! Please check your email and password";
+                    return View();
                 } else
                 {
                     //// Get Session
