@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ClothesShoppingWebApp.Models.User
+namespace ClothesShoppingWebApp.Models
 {
     public class UserEditModel
     {

@@ -6,7 +6,7 @@
 <h1>Login</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         @if (TempData["SignUp"] != null && !string.IsNullOrEmpty(TempData["SignUp"].ToString()))
         {
             <p class="alert alert-success" role="alert">@TempData["SignUp"]</p>
@@ -24,12 +24,15 @@
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-3">
-                        <input type="submit" value="Login" class="btn btn-primary" />
+                    <div class="col-lg-3">
+                        <button type="submit" class="btn btn-primary"><i class='fas fa-sign-in-alt'></i> Login</button>
                     </div>
-                    <div class="col-md-9">
-                        @Html.ActionLink("Forgot your Password?", "ForgotPassword", "Login")
+                    <div class="col-lg-9 mt-2">
+                        <a asp-action="ForgotPassword" asp-controller="Login" class="align-middle">Forgot your Password?</a>
                     </div>
+                </div>
+                <div class="row pt-3 ml-1">
+                    <a asp-action="Google" asp-controller="Login" class="btn btn-outline-primary" name="Google"><i class="fab fa-google"></i> Login with Google</a>
                 </div>
                 
             </div>
@@ -41,9 +44,6 @@
                 @ViewBag.Message
             </div>
         }
-    </div>
-    <div class="col-md-6">
-        <a asp-action="Google" asp-controller="Login" class="btn btn-primary" name="Google">Login with Google</a>
     </div>
 </div>
 

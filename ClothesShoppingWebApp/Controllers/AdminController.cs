@@ -1,4 +1,4 @@
-﻿using ClothesShoppingWebApp.Models.User;
+﻿using ClothesShoppingWebApp.Models;
 using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
 using Microsoft.AspNetCore.Authorization;
