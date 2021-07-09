@@ -77,6 +77,36 @@ namespace DAOLibrary.DataAccess
             return users;
         }
 
+        public IEnumerable<User> GetActiveAccount()
+        {
+            var users = new List<User>();
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                users = context.Users.Include(u => u.RoleNavigation).Where(u => u.Status == true).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return users;
+        }
+
+        public IEnumerable<User> GetInactiveAccount()
+        {
+            var users = new List<User>();
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                users = context.Users.Include(u => u.RoleNavigation).Where(u => u.Status == false).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return users;
+        }
+
         public User GetUserById(int Id)
         {
             User user;

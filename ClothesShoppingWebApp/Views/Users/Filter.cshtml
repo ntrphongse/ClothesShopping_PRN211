@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<DTOLibrary.User>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Filter";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Account list</h2>
+<h1>Filter</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -18,10 +18,9 @@
             <option value="false">Inactive</option>
         </select>
         <input type="submit" value="Filter" />
-
     </p>
 </form>
-<table class="table table-striped table-bordered mydatatable">
+<table class="table">
     <thead>
         <tr>
             <th>
@@ -32,6 +31,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Gender)
@@ -47,11 +49,11 @@
             </th>
 
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
+@foreach (var item in Model) {
         <tr>
 
             <td>
@@ -68,6 +70,14 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
+                @if (String.IsNullOrEmpty(item.Address))
+                {
+                    <span>No info yet</span>
+                }
+                else @Html.DisplayFor(modelItem => item.Address)
+
+            </td>
+            <td>
                 @if (item.Gender == true)
                 {
                     <span>Male</span>
@@ -82,22 +92,16 @@
                 {
                     <span>No info yet</span>
                 }
-                else
-                {
-                    <span>@item.Birthday.ToString().Remove(item.Birthday.ToString().IndexOf(' '))</span>
-                }
+                else @Html.DisplayFor(modelItem => item.Birthday)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RoleNavigation.RoleName)
             </td>
             <td>
-                <span>
-                    <form asp-action="SetStatus">
-                        <input type="checkbox" checked="@item.Status" value="ON" id="@($"item-{item.UserId}")" />
-                        <button type="submit" class="btn btn-primary updateButton" data-userid="@item.UserId">Update</button>
-                    </form>
-                </span>
-
+                <form asp-action="SetStatus">
+                    <input class="form-check-input" type="checkbox" checked="@item.Status" value="ON" id="@($"item-{item.UserId}")" />
+                    <button type="submit" class="btn btn-primary updateButton" data-userid="@item.UserId">Update</button>
+                </form>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
@@ -105,36 +109,6 @@
                 <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
             </td>
         </tr>
-        }
-    </tbody>
-    <thead>
-    </thead>
-</table>
-
-@section Scripts {
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-    <script>
-        $(".mydatatable").DataTable();
-    </script>
-    <script>
-          $(document).ready(function () {
-              $(".updateButton").click(function (event) {
-                  event.preventDefault();
-                  var productid = $(this).attr("data-userid");
-                  var status = $("#item-" + productid).is(":checked");
-                  $.ajax({
-                      type: "POST",
-                      url: "@Url.Action("SetStatus")",
-                      data: {
-                          id: productid,
-                          status: status
-                      },
-                      success: function (result) {
-                          window.location.href = "@Url.Action("Index")";
-                      }
-                  });
-              });
-          });
-    </script>
 }
+    </tbody>
+</table>

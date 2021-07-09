@@ -12,6 +12,11 @@
     <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
 
+    <style>
+        .dataTables_filter {
+            float: right !important;
+        }
+    </style>
 </head>
 <body>
     @{
@@ -46,6 +51,9 @@
                                 <li class="nav-item ml-3">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Product</a>
                                 </li>
+                                <li class="nav-item ml-3">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Account</a>
+                                </li>
                             }
 
                             string email = User.Claims.FirstOrDefault(cl => cl.Type == ClaimTypes.Email).Value;
@@ -74,8 +82,8 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="wrapper px-5 py-5">
+        <main role="main" class="pb-3 my-5">
             @RenderBody()
         </main>
     </div>
