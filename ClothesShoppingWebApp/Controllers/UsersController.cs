@@ -26,6 +26,24 @@ namespace ClothesShoppingWebApp.Controllers
             return View(userList);
         }
 
+        public ActionResult Filter(string status)
+        {
+            IEnumerable<User> accountList;
+            if(status == null)
+            {
+                return RedirectToAction(nameof(Index));
+
+            } else if(status.Equals("true"))
+            {
+                accountList = userRepository.GetActiveUser();
+            } else
+            {
+                accountList = userRepository.GetInactiveUser();
+            }
+            return View(accountList);
+
+        }
+
         // GET: UsersController/Details/5
         public ActionResult Details(int id)
         {

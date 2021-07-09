@@ -28,5 +28,11 @@ namespace DAOLibrary.Repository.Object
         public void SignUp(User user) => UserDAO.Instance.SignUp(user);
 
         public void Update(User user) => UserDAO.Instance.Update(user);
+
+        public IEnumerable<User> GetActiveUser() => UserDAO.Instance.GetActiveAccount();
+
+
+        public IEnumerable<User> GetInactiveUser() => UserDAO.Instance.GetInactiveAccount();
+        
     }
 }
