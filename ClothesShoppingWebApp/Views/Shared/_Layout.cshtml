@@ -70,11 +70,21 @@
                         }
                         else
                         { // Not Login User
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Guest" asp-action="Index">Shopping</a>
+                            </li>
                             <li class="nav-item ml-3">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Log in</a>
                             </li>
                             <li class="nav-item ml-3">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Signup" asp-action="Index">Sign up</a>
+                            </li>
+                            <li class="nav-item ml-3">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
+                                    <span style="font-size: 1.5em; color: Tomato;">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </span>
+                                </a>
                             </li>
                         }
                     </ul>
