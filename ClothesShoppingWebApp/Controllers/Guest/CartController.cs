@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClothesShoppingWebApp.Controllers.Guest
 {
@@ -22,8 +23,9 @@ namespace ClothesShoppingWebApp.Controllers.Guest
         {
             productRepository = new ProductRepository();
         }
-        
+
         //Show Cart Table
+        [Authorize(Policy = "UserPolicy")]
         public IActionResult Index()
         { 
             
@@ -35,8 +37,9 @@ namespace ClothesShoppingWebApp.Controllers.Guest
             }
             return View(list);
         }
-        
+
         //POST - ADD
+        [Authorize(Policy = "UserPolicy")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Add(int ProductId, int Quantity)
@@ -94,6 +97,7 @@ namespace ClothesShoppingWebApp.Controllers.Guest
         }
 
         //GET - REMOVE
+        [Authorize(Policy = "UserPolicy")]
         public IActionResult Remove(int? ProductId)
         {
             if(ProductId == null)

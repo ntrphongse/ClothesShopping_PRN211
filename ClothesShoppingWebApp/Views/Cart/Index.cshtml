@@ -1,7 +1,7 @@
 ﻿@model List<CartItem>
 @{
     ViewData["Title"] = "Cart";
-    Layout = "~/Views/Shared/_LayoutGuest.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Your Cart</h1>
@@ -52,7 +52,7 @@
                             Total += (float)item.Quantity * (float)item.Price;
                         }
                     }
-                    @Total
+                    @Total.ToString("0.00")
                 </td>
             </tr>
         </tbody>

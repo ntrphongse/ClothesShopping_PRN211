@@ -2,6 +2,7 @@
 using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
 using DTOLibrary;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -21,7 +22,7 @@ namespace ClothesShoppingWebApp.Controllers.Guest
             productRepository = new ProductRepository();
             categoryRepository = new CategoryRepository();
         }
-
+        [Authorize(Policy = "UserPolicy")]
         public IActionResult Index()
         {
             IEnumerable<Product> listProduct = productRepository.GetProductList();
@@ -33,6 +34,7 @@ namespace ClothesShoppingWebApp.Controllers.Guest
         }
 
         //GET - FILTER
+        [Authorize(Policy = "UserPolicy")]
         public IActionResult Filter(string CategoryName)
         {
             if(CategoryName == null)
@@ -55,6 +57,7 @@ namespace ClothesShoppingWebApp.Controllers.Guest
         }
 
         //POST - SEARCH
+        [Authorize(Policy = "UserPolicy")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Search(string ProductName)

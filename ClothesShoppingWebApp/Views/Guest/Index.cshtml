@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Guest";
-    Layout = "~/Views/Shared/_LayoutGuest.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
     List<DTOLibrary.Product> Products = Model.Products;
@@ -57,13 +57,13 @@
                             {
                                 if (product.Status == true)
                                 {
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <div class="card" style="width: 18rem;">
                                             <img class="card-img-top h-50" src="@product.Image" alt="Card image cap">
                                             <form method="POST" asp-controller="Cart" asp-action="Add">
                                                 <input type="hidden" name="ProductId" value="@product.ProductId" />
                                                 <div class="card-body">
-                                                    <h5 class="card-title">@product.ProductName</h5>
+                                                    <h6 class="card-title text-info">@product.ProductName</h6>
                                                     <p class="card-text">
                                                         Price: @product.Price |
                                                         Quantity:
@@ -75,6 +75,7 @@
                                             </form>
                                         </div>
                                     </div>
+                                    <br />
                                 }
                             }
 
