@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTOLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace DAOLibrary.Repository.Interface
 {
     public interface IOrderDetailRepository
     {
+        IEnumerable<OrderDetail> GetOrderDetailsByOrderId(int orderId);
     }
 }
