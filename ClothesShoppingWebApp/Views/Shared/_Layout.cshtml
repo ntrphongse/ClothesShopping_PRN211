@@ -54,6 +54,10 @@
                                 <li class="nav-item ml-3">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Account</a>
                                 </li>
+                                <li class="nav-item ml-3">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Order</a>
+                                </li>
+
                             }
 
                             string email = User.Claims.FirstOrDefault(cl => cl.Type == ClaimTypes.Email).Value;
