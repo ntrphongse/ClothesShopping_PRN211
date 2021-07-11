@@ -1,6 +1,7 @@
 ﻿using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
 using DTOLibrary;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -52,6 +53,7 @@ namespace ClothesShoppingWebApp.Controllers
         }
 
         // GET: ProductsController/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName");
@@ -79,13 +81,13 @@ namespace ClothesShoppingWebApp.Controllers
         }
 
         // GET: ProductsController/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             Product product = productRepository.GetProductById(id);
             ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName", product.CategoryId);
             return View(product);
         }
-
 
 
         // POST: ProductsController/Edit/5
@@ -116,6 +118,7 @@ namespace ClothesShoppingWebApp.Controllers
         }
 
         // GET: ProductsController/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             

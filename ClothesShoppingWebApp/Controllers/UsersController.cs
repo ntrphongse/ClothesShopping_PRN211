@@ -1,6 +1,7 @@
 ﻿using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
 using DTOLibrary;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,7 +20,9 @@ namespace ClothesShoppingWebApp.Controllers
             userRepository = new UserRepository();
         }
 
+
         // GET: UsersController
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var userList = userRepository.GetUserList();
@@ -44,7 +47,9 @@ namespace ClothesShoppingWebApp.Controllers
 
         }
 
+
         // GET: UsersController/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int id)
         {
             var user = userRepository.GetUserById(id);
@@ -77,6 +82,7 @@ namespace ClothesShoppingWebApp.Controllers
         }
 
         // GET: UsersController/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             User user = userRepository.GetUserById(id);
@@ -132,6 +138,7 @@ namespace ClothesShoppingWebApp.Controllers
         }
 
         // POST: UsersController/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
