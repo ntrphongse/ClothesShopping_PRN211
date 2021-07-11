@@ -38,6 +38,18 @@ namespace ClothesShoppingWebApp.Controllers.Guest
             return View(list);
         }
 
+        public IActionResult Checkout()
+        {
+
+            var cart = HttpContext.Session.GetComplexData<List<CartItem>>("CART");
+            List<CartItem> list = new List<CartItem>();
+            if (cart != null)
+            {
+                list = (List<CartItem>)cart;
+            }
+            return View(list);
+        }
+
         //POST - ADD
         [Authorize(Policy = "UserPolicy")]
         [HttpPost]

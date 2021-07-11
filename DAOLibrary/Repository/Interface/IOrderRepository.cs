@@ -12,6 +12,6 @@ namespace DAOLibrary.Repository.Interface
         IEnumerable<Order> GetAllOrders();
         IEnumerable<Order> GetOrderByCustomerId(int id);
         Order GetOrderById(int id);
-
+        int CreateOrder(Order order);
     }
 }

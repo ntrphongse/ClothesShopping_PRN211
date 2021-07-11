@@ -1,4 +1,6 @@
-﻿using DTOLibrary;
+﻿using DAOLibrary.Repository.Interface;
+using DAOLibrary.Repository.Object;
+using DTOLibrary;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ namespace DAOLibrary.DataAccess
 {
     public class OrderDetailDAO
     {
+        IProductRepository productRepository = new ProductRepository();
         private static OrderDetailDAO instance = null;
         private static readonly object instanceLock = new object();
         public static OrderDetailDAO Instance
@@ -41,6 +44,38 @@ namespace DAOLibrary.DataAccess
                 throw new Exception(ex.Message);
             }
             return orders;
+        }
+        public void AddOrderDetailtoOrder(OrderDetail detail)
+        {
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                context.OrderDetails.Add(detail);
+                context.SaveChanges();
+                SubtractStock(detail.ProductId, detail.Quantity);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        private void SubtractStock(int productId, int quantity)
+        {
+            try
+            {
+                using var context = new lPVNgP26wKContext();
+                var product = productRepository.GetProductById(productId);
+                if (product != null)
+                {
+                    context.Products.Attach(product);
+                    product.Quantity -= quantity;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

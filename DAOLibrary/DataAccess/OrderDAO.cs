@@ -72,6 +72,25 @@ namespace DAOLibrary.DataAccess
             }
             return order;
         }
-
+        
+        public int CreateOrder(Order order)
+        {
+            int orderId;
+            
+                Order orderobj = GetOrderById(order.OrderId);
+                if (orderobj == null)
+                {
+                    using var context = new lPVNgP26wKContext();
+                    context.Orders.Add(order);
+                    context.SaveChanges();
+                    orderId = order.OrderId;
+                }
+                else
+                {
+                    throw new Exception("The order is already exist!");
+                }
+            
+            return orderId;
+        }
     }
 }
