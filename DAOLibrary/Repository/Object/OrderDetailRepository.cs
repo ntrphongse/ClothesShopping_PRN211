@@ -12,6 +12,6 @@ namespace DAOLibrary.Repository.Object
     public class OrderDetailRepository : IOrderDetailRepository
     {
         public IEnumerable<OrderDetail> GetOrderDetailsByOrderId(int orderId) => OrderDetailDAO.Instance.GetOrderDetailsByOrderId(orderId);
-        
+        public void AddOrderDetailtoOrder(OrderDetail detail) => OrderDetailDAO.Instance.AddOrderDetailtoOrder(detail);
     }
 }

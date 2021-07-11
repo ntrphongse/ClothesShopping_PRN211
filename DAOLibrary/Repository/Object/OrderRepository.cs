@@ -17,6 +17,7 @@ namespace DAOLibrary.Repository.Object
         public IEnumerable<Order> GetOrderByCustomerId(int id) => OrderDAO.Instance.GetOrdersByCustomerId(id);
 
         public Order GetOrderById(int id) => OrderDAO.Instance.GetOrderById(id);
-        
+
+        int IOrderRepository.CreateOrder(Order order) => OrderDAO.Instance.CreateOrder(order);
     }
 }

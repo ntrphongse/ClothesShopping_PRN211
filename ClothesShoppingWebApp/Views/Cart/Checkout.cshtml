@@ -1,16 +1,17 @@
 ﻿@model List<CartItem>
 @{
-    ViewData["Title"] = "Cart";
+    ViewData["Title"] = "Checkout";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using System.Security.Claims
 @using DAOLibrary.Repository.Object
 @using DAOLibrary.Repository.Interface
+
+<h1>Checkout</h1>
+<hr />
 @{
     IUserRepository userRepository = new UserRepository();
 }
-<h1>Your Cart</h1>
-<hr />
 @if (Model.Count() > 0)
 {
     <table class="table table-bordered text-center" style="width:100%">
@@ -34,15 +35,7 @@
                     <td><img src="@item.Image" alt="Product Image" style="width:75px;height:75px;" /></td>
                     <td>@item.Quantity</td>
                     <td>@item.Price</td>
-                    <td>@(item.Price * item.Quantity)</td>
-                    <td>
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Cart" asp-action="Remove"
-                               asp-route-ProductId="@item.ProductId" class="btn btn-danger mx-2">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </div>
-                    </td>
+                    <td>@(item.Price*item.Quantity)</td>
                 </tr>
             }
             <tr>
@@ -58,6 +51,8 @@
                         }
                     }
                     @Total.ToString("0.00")
+                    <input type="hidden" value="@Total" name="TotalPrice" form="checkoutfrm" />
+                    <input type="hidden" value="@Model.Count()" name="NumOfItems" form="checkoutfrm" />
                 </td>
             </tr>
         </tbody>
@@ -67,24 +62,60 @@ else
 {
     <span class="alert alert-danger">Empty</span>
     <br />
-    <style>
-        #chkoutbtn {
-            pointer-events: none;
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-    </style>
 }
+@{ string email = User.Claims.FirstOrDefault(cl => cl.Type == ClaimTypes.Email).Value;
+    DTOLibrary.User loginUser = userRepository.GetUser(email);
+}
+<br />
+<h2>Contact Info</h2>
+<table>
+    <tbody>
+        <tr>
+            <td>Fullname</td>
+            <td>@loginUser.FullName</td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td>@loginUser.PhoneNumber</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>@loginUser.Email</td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+                <input type="text" name="Address" value="@loginUser.Address" form="checkoutfrm" />
+                <input type="hidden" name="UserId" value="@loginUser.UserId" form="checkoutfrm" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+<style>
+    table td {
+        padding: 10px;
+    }
 
-@{ var checklogin = User.Claims.FirstOrDefault(cl => cl.Type == ClaimTypes.Email);}
+        table td input {
+            width: 500px;
+        }
+</style>
+
+<form method="POST" asp-controller="Checkout" asp-action="Checkout" id="checkoutfrm"></form>
+
 <hr />
 <div class="row">
     <a href="/Guest" class="btn btn-success col-2" style="margin-left:15px;"> <i class="fas fa-arrow-left"></i> &nbsp; Continue Shopping</a>
     <div class="col-8" style="padding:0;"></div>
-    @if (checklogin !=null) {
-    <a class="btn btn-primary col" style="margin-right: 15px;" id="chkoutbtn" asp-area="" asp-controller="Cart" asp-action="Checkout">Checkout</a>
-    }
-    else {
-        <a class="btn btn-primary col" style="margin-right: 15px;" id="chkoutbtn" asp-area="" asp-controller="Login" asp-action="Index">Checkout</a> 
-        }
+    <input type="submit" class="btn btn-primary col" style="margin-right: 15px;" form="checkoutfrm" value="Confirm" />
 </div>
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+
+}  

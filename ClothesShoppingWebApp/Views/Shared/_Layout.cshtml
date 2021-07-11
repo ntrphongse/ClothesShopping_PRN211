@@ -73,6 +73,13 @@
                                     <i class="fas fa-user"></i> Welcome, @loginUser.FullName
                                 </a>
                             </li>
+                            <li class="nav-item ml-3">
+                                <a class="nav-link text-dark" style="padding-top:0;" asp-area="" asp-controller="Cart" asp-action="Index">
+                                    <span style="font-size: 1.5em; color: Tomato;">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </span>
+                                </a>
+                            </li>
                         }
                         else
                         { // Not Login User
@@ -86,7 +93,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Signup" asp-action="Index">Sign up</a>
                             </li>
                             <li class="nav-item ml-3">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
+                                <a class="nav-link text-dark" style="padding-top:0;" asp-area="" asp-controller="Cart" asp-action="Index">
                                     <span style="font-size: 1.5em; color: Tomato;">
                                         <i class="fas fa-shopping-cart"></i>
                                     </span>
