@@ -1,6 +1,7 @@
 ﻿using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
 using DTOLibrary;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +22,7 @@ namespace ClothesShoppingWebApp.Controllers
             orderDetailRepository = new OrderDetailRepository();
         }
         // GET: OrderHistoryController
+        [Authorize(Roles = "User")]
         public ActionResult Index(int id)
         {
             var orderList = orderRepository.GetOrderByCustomerId(id);
@@ -29,6 +31,7 @@ namespace ClothesShoppingWebApp.Controllers
         }
 
         // GET: OrderHistoryController/Details/5
+        [Authorize(Roles = "User")]
         public ActionResult Details(int id)
         {
             IEnumerable<OrderDetail> orderDetails;
@@ -42,67 +45,5 @@ namespace ClothesShoppingWebApp.Controllers
             return View(order);
         }
 
-        // GET: OrderHistoryController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: OrderHistoryController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: OrderHistoryController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: OrderHistoryController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: OrderHistoryController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: OrderHistoryController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

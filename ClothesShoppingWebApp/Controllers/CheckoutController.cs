@@ -2,6 +2,7 @@
 using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
 using DTOLibrary;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,7 +22,8 @@ namespace ClothesShoppingWebApp.Controllers
             IOrderRepository orderRepository = new OrderRepository();
             IOrderDetailRepository orderDetailRepository = new OrderDetailRepository();
         }
-       
+
+        [Authorize(Roles = "User")]
         [HttpPost]
         public IActionResult Checkout(float TotalPrice, int NumOfItems, int UserId, string Address)
         {
