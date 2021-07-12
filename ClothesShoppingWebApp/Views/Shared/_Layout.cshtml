@@ -2,6 +2,7 @@
 @using DAOLibrary.Repository.Object
 @using DAOLibrary.Repository.Interface 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,6 +19,7 @@
         }
     </style>
 </head>
+
 <body>
     @{
         IUserRepository userRepository = new UserRepository();
@@ -36,12 +38,35 @@
                     <ul class="navbar-nav ml-auto">
                         @if (User.Claims.FirstOrDefault(cl => cl.Type == ClaimTypes.Email) != null)
                         { // Login User
-                            <li class="nav-item ml-3">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
+                            @*<li class="nav-item ml-3">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>*@
+                            string email = User.Claims.FirstOrDefault(cl => cl.Type == ClaimTypes.Email).Value;
+                            DTOLibrary.User loginUser = userRepository.GetUser(email);
+
                             @if (User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Role)).Value.Equals("User"))
                             { // Normal User
-
+                                <li class="nav-item ml-3">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Guest" asp-action="Index">Shopping</a>
+                                </li>
+                                <li class="nav-item ml-3">
+                                    <a class="nav-link text-dark" asp-area="" asp-route-id="@loginUser.UserId" asp-controller="OrderHistory" asp-action="Index">Order History</a>
+                                </li>
+                                <li class="nav-item ml-3">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Logout" asp-action="Index">Log out</a>
+                                </li>
+                                <li class="nav-item ml-3">
+                                    <a class="nav-link text-dark" asp-controller="@loginUser.RoleNavigation.RoleName" asp-action="Index">
+                                        <i class="fas fa-user"></i> Welcome, @loginUser.FullName
+                                    </a>
+                                </li>
+                                <li class="nav-item ml-3">
+                                    <a class="nav-link text-dark" style="padding-top:0;" asp-area="" asp-controller="Cart" asp-action="Index">
+                                        <span style="font-size: 1.5em; color: Tomato;">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </span>
+                                    </a>
+                                </li>
                             }
                             else if (User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Role)).Value.Equals("Admin"))
                             { // Admin
@@ -57,29 +82,15 @@
                                 <li class="nav-item ml-3">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Order</a>
                                 </li>
-
+                                <li class="nav-item ml-3">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Logout" asp-action="Index">Log out</a>
+                                </li>
+                                <li class="nav-item ml-3">
+                                    <a class="nav-link text-dark" asp-controller="@loginUser.RoleNavigation.RoleName" asp-action="Index">
+                                        <i class="fas fa-user"></i> Welcome, @loginUser.FullName
+                                    </a>
+                                </li>
                             }
-
-                            string email = User.Claims.FirstOrDefault(cl => cl.Type == ClaimTypes.Email).Value;
-                            DTOLibrary.User loginUser = userRepository.GetUser(email);
-                            <li class="nav-item ml-3">
-                                <a class="nav-link text-dark" asp-area="" asp-route-id="@loginUser.UserId" asp-controller="OrderHistory" asp-action="Index">Order History</a>
-                            </li>
-                            <li class="nav-item ml-3">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Logout" asp-action="Index">Log out</a>
-                            </li>
-                            <li class="nav-item ml-3">
-                                <a class="nav-link text-dark" asp-controller="@loginUser.RoleNavigation.RoleName" asp-action="Index">
-                                    <i class="fas fa-user"></i> Welcome, @loginUser.FullName
-                                </a>
-                            </li>
-                            <li class="nav-item ml-3">
-                                <a class="nav-link text-dark" style="padding-top:0;" asp-area="" asp-controller="Cart" asp-action="Index">
-                                    <span style="font-size: 1.5em; color: Tomato;">
-                                        <i class="fas fa-shopping-cart"></i>
-                                    </span>
-                                </a>
-                            </li>
                         }
                         else
                         { // Not Login User
@@ -105,7 +116,7 @@
             </div>
         </nav>
     </header>
-    <div class="wrapper px-5 py-5">
+    <div class="container">
         <main role="main" class="pb-3 my-5">
             @RenderBody()
         </main>
