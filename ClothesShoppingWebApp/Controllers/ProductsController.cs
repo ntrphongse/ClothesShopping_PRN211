@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ClothesShoppingWebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         IProductRepository productRepository = null;
@@ -21,6 +22,7 @@ namespace ClothesShoppingWebApp.Controllers
             productRepository = new ProductRepository();
             categoryRepository = new CategoryRepository();
         }
+        [Authorize(Roles = "Admin")]
         // GET: ProductsController
         public ActionResult Index(string searchString, string categoryId)
         {
@@ -40,7 +42,7 @@ namespace ClothesShoppingWebApp.Controllers
             ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName");
             return View(productList);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: ProductsController/Details/5
         public ActionResult Details(int id)
         {       
@@ -89,7 +91,7 @@ namespace ClothesShoppingWebApp.Controllers
             return View(product);
         }
 
-
+        [Authorize(Roles = "Admin")]
         // POST: ProductsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -129,7 +131,7 @@ namespace ClothesShoppingWebApp.Controllers
             }
             return View(product);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: ProductsController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

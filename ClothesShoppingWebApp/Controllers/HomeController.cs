@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ClothesShoppingWebApp.Controllers
@@ -19,13 +20,25 @@ namespace ClothesShoppingWebApp.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "User")]
         public IActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                var role = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.Role)).Value;
+                if (role.Equals("Admin"))
+                {
+                    return RedirectToAction("Index", "Products");
+
+                } else
+                {
+                    return RedirectToAction("Index", "Guest");
+                }
+            } else
+            {
+                return RedirectToAction("Index", "Guest");
+            }
         }
 
-        [Authorize(Policy = "UserPolicy")]
         public IActionResult Privacy()
         {
             return View();

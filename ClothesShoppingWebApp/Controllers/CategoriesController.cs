@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using DTOLibrary;
 using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClothesShoppingWebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         ICategoryRepository categoryRepository = null;
