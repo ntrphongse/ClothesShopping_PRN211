@@ -33,9 +33,17 @@ namespace DAOLibrary.DataAccess
             try
             {
                 using var context = new ClothesShoppingContext();
-                loginUser = context.Users
-                                .Include(u => u.RoleNavigation)
-                                .SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password));
+                loginUser = context.Users.Include(u => u.RoleNavigation)
+                                .SingleOrDefault(u => u.Email.ToLower().Equals(email.ToLower()));
+
+                if (loginUser != null)
+                {
+                    bool verified = BCrypt.Net.BCrypt.Verify(password, loginUser.Password);
+                    if (!verified)
+                    {
+                        loginUser = null;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -142,9 +150,16 @@ namespace DAOLibrary.DataAccess
             try
             {
                 using var context = new ClothesShoppingContext();
-                context.Users.Add(user);
-                context.SaveChanges();
+                User _user = context.Users.SingleOrDefault(u => u.Email.ToLower().Equals(user.Email.ToLower()));
 
+                if (_user == null)
+                {
+                    context.Users.Add(user);
+                    context.SaveChanges();
+                } else
+                {
+                    throw new Exception("Email is existed! Please try again or login with your email!");
+                }
             } catch (Exception ex)
             {
                 throw new Exception(ex.Message);

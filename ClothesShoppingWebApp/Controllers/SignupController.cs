@@ -12,6 +12,7 @@ namespace ClothesShoppingWebApp.Controllers
 {
     public class SignupController : Controller
     {
+        private string defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/clothshopping-6fd63.appspot.com/o/UserAvatar_Default.png?alt=media&token=3b553ee8-9965-474d-a6ef-5149e4c86273";
         [AllowAnonymous]
         public IActionResult Index(string? email, string? fullname)
         {
@@ -50,9 +51,10 @@ namespace ClothesShoppingWebApp.Controllers
                         {
                             FullName = fullname,
                             Email = email,
-                            Password = password,
+                            Password = BCrypt.Net.BCrypt.HashPassword(password),
                             Role = role,
-                            Status = status
+                            Status = status,
+                            Avatar = defaultAvatar
                         };
 
                         IUserRepository userRepository = new UserRepository();
