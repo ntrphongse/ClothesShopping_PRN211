@@ -33,7 +33,7 @@ namespace DAOLibrary.DataAccess
             var categoryList = new List<Category>();
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 categoryList = context.Categories.ToList();
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace DAOLibrary.DataAccess
             Category category;
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 category = context.Categories.FirstOrDefault(c => c.CategoryId == id);
             }
             catch (Exception ex)
@@ -64,7 +64,7 @@ namespace DAOLibrary.DataAccess
             Category category;
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 category = context.Categories.FirstOrDefault(c => c.CategoryName == name);
             }
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace DAOLibrary.DataAccess
                 Category categoryObj = GetCategoryByName(category.CategoryName);
                 if (categoryObj == null)
                 {
-                    using var context = new lPVNgP26wKContext();
+                    using var context = new ClothesShoppingContext();
                     context.Categories.Add(category);
                     context.SaveChanges();
                 }
@@ -101,7 +101,7 @@ namespace DAOLibrary.DataAccess
             try
             {
                 Category categoryObj = GetCategoryByName(category.CategoryName);
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 if (categoryObj == null)
                 {
                     context.Categories.Update(category);
@@ -125,7 +125,7 @@ namespace DAOLibrary.DataAccess
                 Category category = GetCategoryById(categoryId);
                 if (category != null)
                 {
-                    using var context = new lPVNgP26wKContext();
+                    using var context = new ClothesShoppingContext();
                     context.Categories.Remove(category);
                     context.SaveChanges();
                 }

@@ -32,7 +32,7 @@ namespace DAOLibrary.DataAccess
 
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 loginUser = context.Users
                                 .Include(u => u.RoleNavigation)
                                 .SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password));
@@ -50,7 +50,7 @@ namespace DAOLibrary.DataAccess
             User user = null;
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 user = context.Users
                         .Include(u => u.RoleNavigation)
                         .SingleOrDefault(u => u.Email.Equals(email));
@@ -67,7 +67,7 @@ namespace DAOLibrary.DataAccess
             var users = new List<User>();
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 users = context.Users.Include(u => u.RoleNavigation).ToList();
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace DAOLibrary.DataAccess
             var users = new List<User>();
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 users = context.Users.Include(u => u.RoleNavigation).Where(u => u.Status == true).ToList();
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace DAOLibrary.DataAccess
             var users = new List<User>();
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 users = context.Users.Include(u => u.RoleNavigation).Where(u => u.Status == false).ToList();
             }
             catch (Exception ex)
@@ -112,7 +112,7 @@ namespace DAOLibrary.DataAccess
             User user;
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 user = context.Users.Include(u => u.RoleNavigation).FirstOrDefault(u => u.UserId == Id);
             }
             catch (Exception ex)
@@ -128,7 +128,7 @@ namespace DAOLibrary.DataAccess
             try
 
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 context.Users.Update(user);
                 context.SaveChanges();
             }
@@ -141,7 +141,7 @@ namespace DAOLibrary.DataAccess
         {
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 context.Users.Add(user);
                 context.SaveChanges();
 
@@ -156,7 +156,7 @@ namespace DAOLibrary.DataAccess
    {
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 User user = GetUserById(id);
                 user.Status = statusVal;
               } catch (Exception ex)
@@ -172,7 +172,7 @@ namespace DAOLibrary.DataAccess
                 User user = GetUserById(userId);
                 if (user != null)
                 {
-                    using var context = new lPVNgP26wKContext();
+                    using var context = new ClothesShoppingContext();
                     context.Users.Remove(user);
                     context.SaveChanges();
                 }

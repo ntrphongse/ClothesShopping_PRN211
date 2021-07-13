@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DTOLibrary
 {
-    public partial class lPVNgP26wKContext
+    public partial class ClothesShoppingContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -33,7 +33,7 @@ namespace DAOLibrary.DataAccess
             var orders = new List<Order>();
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 orders = context.Orders.Include(o => o.Customer).ToList();
             }
             catch (Exception ex)
@@ -48,7 +48,7 @@ namespace DAOLibrary.DataAccess
             var orders = new List<Order>();
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 orders = context.Orders.Where(o => o.CustomerId == id).ToList();
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace DAOLibrary.DataAccess
             Order order;
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 order = context.Orders.Include(o => o.Customer).FirstOrDefault(o => o.OrderId == id);
             } 
             catch (Exception ex)
@@ -80,7 +80,7 @@ namespace DAOLibrary.DataAccess
                 Order orderobj = GetOrderById(order.OrderId);
                 if (orderobj == null)
                 {
-                    using var context = new lPVNgP26wKContext();
+                    using var context = new ClothesShoppingContext();
                     context.Orders.Add(order);
                     context.SaveChanges();
                     orderId = order.OrderId;

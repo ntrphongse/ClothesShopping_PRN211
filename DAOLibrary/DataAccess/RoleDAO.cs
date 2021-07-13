@@ -9,6 +9,7 @@ namespace DAOLibrary.DataAccess
 {
     public class RoleDAO
     {
+
         private static RoleDAO instance = null;
         private static readonly object instanceLock = new object();
         public static RoleDAO Instance
@@ -32,7 +33,9 @@ namespace DAOLibrary.DataAccess
             var roleList = new List<Role>();
             try
             {
-                using var context = new lPVNgP26wKContext();
+
+                using var context = new ClothesShoppingContext();
+
                 roleList = context.Roles.ToList();
             }
             catch (Exception ex)
@@ -42,5 +45,6 @@ namespace DAOLibrary.DataAccess
             return roleList;
 
         }
+
     }
 }

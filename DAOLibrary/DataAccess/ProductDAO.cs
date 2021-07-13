@@ -31,7 +31,7 @@ namespace DAOLibrary.DataAccess
             var products = new List<Product>();
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 products = context.Products.Include(p => p.Category).ToList();
             } 
             catch (Exception ex)
@@ -46,7 +46,7 @@ namespace DAOLibrary.DataAccess
             Product product;
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 product = context.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductName == name);
             }
             catch (Exception ex)
@@ -61,7 +61,7 @@ namespace DAOLibrary.DataAccess
             Product product;
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 product = context.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductId == Id);
             }
             catch (Exception ex)
@@ -78,7 +78,7 @@ namespace DAOLibrary.DataAccess
                 Product productObj = GetProductByName(product.ProductName);
                 if(productObj == null)
                 {
-                    using var context = new lPVNgP26wKContext();
+                    using var context = new ClothesShoppingContext();
                     context.Products.Add(product);
                     context.SaveChanges();
                 } 
@@ -99,7 +99,7 @@ namespace DAOLibrary.DataAccess
             {
                 List<Product> list = GetProductList().ToList();
                 list.RemoveAll(p => p.ProductId == product.ProductId);  
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 Product producTest = list.FirstOrDefault(p => p.ProductName.Trim().ToUpper() == product.ProductName.Trim().ToUpper());
                 
                 if(producTest == null)
@@ -124,7 +124,7 @@ namespace DAOLibrary.DataAccess
                 Product product = GetProductById(productId);
                 if(product != null)
                 {
-                    using var context = new lPVNgP26wKContext();
+                    using var context = new ClothesShoppingContext();
                     context.Products.Remove(product);
                     context.SaveChanges();
                 }
