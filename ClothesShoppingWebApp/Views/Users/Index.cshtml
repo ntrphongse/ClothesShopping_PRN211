@@ -7,9 +7,7 @@
 
 <h2>Account list</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <form asp-controller="Users" asp-action="Filter" method="get">
     <p>
         <select name="status">
@@ -42,10 +40,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.RoleNavigation.RoleName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -91,18 +86,17 @@
                 @Html.DisplayFor(modelItem => item.RoleNavigation.RoleName)
             </td>
             <td>
-                <span>
-                    <form asp-action="SetStatus">
-                        <input type="checkbox" checked="@item.Status" value="ON" id="@($"item-{item.UserId}")" />
-                        <button type="submit" class="btn btn-primary updateButton" data-userid="@item.UserId">Update</button>
-                    </form>
-                </span>
-
+                @if(item.Status == true)
+                {
+                    <span>Active</span>
+                } else
+                {
+                    <span>Unactive</span>
+                }
             </td>
+            
             <td>
-                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.UserId">Details</a>
             </td>
         </tr>
         }
@@ -116,25 +110,5 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $(".mydatatable").DataTable();
-    </script>
-    <script>
-          $(document).ready(function () {
-              $(".updateButton").click(function (event) {
-                  event.preventDefault();
-                  var productid = $(this).attr("data-userid");
-                  var status = $("#item-" + productid).is(":checked");
-                  $.ajax({
-                      type: "POST",
-                      url: "@Url.Action("SetStatus")",
-                      data: {
-                          id: productid,
-                          status: status
-                      },
-                      success: function (result) {
-                          window.location.href = "@Url.Action("Index")";
-                      }
-                  });
-              });
-          });
     </script>
 }

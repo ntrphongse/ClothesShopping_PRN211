@@ -9,6 +9,6 @@ namespace DAOLibrary.Repository.Interface
 {
     public interface IRoleRepository
     {
-        
+        IEnumerable<Role> GetRolesList();
     }
 }

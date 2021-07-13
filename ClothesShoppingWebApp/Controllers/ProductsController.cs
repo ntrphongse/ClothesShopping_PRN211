@@ -119,34 +119,5 @@ namespace ClothesShoppingWebApp.Controllers
             }
         }
 
-        // GET: ProductsController/Delete/5
-        [Authorize(Roles = "Admin")]
-        public ActionResult Delete(int id)
-        {
-            
-            var product = productRepository.GetProductById(id);
-            if(product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
-        }
-        [Authorize(Roles = "Admin")]
-        // POST: ProductsController/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            try
-            {
-                productRepository.DeleteProduct(id);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = ex.Message;
-                return View();
-            }
-        }
     }
 }
