@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DTOLibrary
 {
-    public partial class lPVNgP26wKContext : DbContext
+    public partial class ClothesShoppingContext : DbContext
     {
-        public lPVNgP26wKContext()
+        public ClothesShoppingContext()
         {
         }
 
-        public lPVNgP26wKContext(DbContextOptions<lPVNgP26wKContext> options)
+        public ClothesShoppingContext(DbContextOptions<ClothesShoppingContext> options)
             : base(options)
         {
         }
