@@ -8,5 +8,41 @@ namespace DAOLibrary.DataAccess
 {
     class RoleDAO
     {
+<<<<<<< Updated upstream
+=======
+        private static RoleDAO instance = null;
+        private static readonly object instanceLock = new object();
+        public static RoleDAO Instance
+        {
+            get
+            {
+                lock (instanceLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new RoleDAO();
+                    }
+                    return instance;
+                }
+            }
+        }
+        //-----------------------------------------------------------------------------
+
+        public IEnumerable<Role> GetRoleList()
+        {
+            var roleList = new List<Role>();
+            try
+            {
+                using var context = new ClothesShoppingContext();
+                roleList = context.Roles.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return roleList;
+
+        }
+>>>>>>> Stashed changes
     }
 }

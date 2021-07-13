@@ -36,7 +36,7 @@ namespace DAOLibrary.DataAccess
             var orders = new List<OrderDetail>();
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 orders = context.OrderDetails.Include(o => o.Product).Where(o => o.OrderId == id).ToList();
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace DAOLibrary.DataAccess
         {
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 context.OrderDetails.Add(detail);
                 context.SaveChanges();
                 SubtractStock(detail.ProductId, detail.Quantity);
@@ -63,7 +63,7 @@ namespace DAOLibrary.DataAccess
         {
             try
             {
-                using var context = new lPVNgP26wKContext();
+                using var context = new ClothesShoppingContext();
                 var product = productRepository.GetProductById(productId);
                 if (product != null)
                 {
