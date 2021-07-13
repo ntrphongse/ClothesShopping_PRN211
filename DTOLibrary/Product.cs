@@ -14,8 +14,13 @@ namespace DTOLibrary
             OrderDetails = new HashSet<OrderDetail>();
         }
 
+        [Display(Name = "Product ID")]
         public int ProductId { get; set; }
+
+        [Display(Name = "Product Name")]
         public string ProductName { get; set; }
+
+        [Display(Name = "Category ID")]
         public int CategoryId { get; set; }
         public float Price { get; set; }
         public int Quantity { get; set; }
