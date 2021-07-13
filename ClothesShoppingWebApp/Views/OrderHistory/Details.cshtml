@@ -39,7 +39,7 @@
             Customer Email
         </dt>
         <dd class="col-sm-10">
-            <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.Customer.UserId">
+            <a asp-controller="User" asp-action="Index">
                 @Html.DisplayFor(model => model.Customer.Email)
             </a>
         </dd>

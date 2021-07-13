@@ -37,7 +37,7 @@ namespace ClothesShoppingWebApp.Controllers.Guest
             }
             return View(list);
         }
-
+        [Authorize(Roles = "User")]
         public IActionResult Checkout()
         {
 
