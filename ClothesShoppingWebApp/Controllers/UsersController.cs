@@ -4,6 +4,7 @@ using DTOLibrary;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace ClothesShoppingWebApp.Controllers
     public class UsersController : Controller
     {
         IUserRepository userRepository = null;
+        IRoleRepository roleRepository = null;
 
         public UsersController()
         {
             userRepository = new UserRepository();
+            roleRepository = new RoleRepository();
         }
 
 
@@ -60,97 +63,58 @@ namespace ClothesShoppingWebApp.Controllers
             return View(user);
         }
 
-        // GET: UsersController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UsersController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+        
         // GET: UsersController/Edit/5
-        [Authorize(Roles = "Admin")]
-        public ActionResult Edit(int id)
-        {
-            User user = userRepository.GetUserById(id);
-            return View();
-        }
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult Edit(int id)
+        //{
+        //    User user = userRepository.GetUserById(id);
+        //    ViewData["Role"] = new SelectList(roleRepository.GetRolesList(), "RoleId", "RoleName", user.Role);
+        //    return View(user);
+        //}
 
         // POST: UsersController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, User user)
-        {
-            try
-            {
-                if (id != user.UserId)
-                {
-                    return NotFound();
-                }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(int id, User user)
+        //{
+        //    try
+        //    {
+        //        if (id != user.UserId)
+        //        {
+        //            return NotFound();
+        //        }
 
-                if (ModelState.IsValid)
-                {
-                    userRepository.UpdateUser(user);
-                }
+        //        if (ModelState.IsValid)
+        //        {
+        //            userRepository.UpdateUser(user);
+        //        }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = ex.Message;
-                return RedirectToAction(nameof(Index));
-            }
-        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ViewBag.Message = ex.Message;
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //}
 
-        [HttpPost]
-        public ActionResult SetStatus([FromForm] int id, [FromForm] bool status)
-        {
-            try
-            {
-                userRepository.SetAccountStatus(id, status);
+        //[HttpPost]
+        //public ActionResult SetStatus([FromForm] int id, [FromForm] bool status)
+        //{
+        //    try
+        //    {
+        //        userRepository.SetAccountStatus(id, status);
 
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = ex.Message;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ViewBag.Message = ex.Message;
 
-            }
-            return RedirectToAction(nameof(Index));
-        }
+        //    }
+        //    return RedirectToAction(nameof(Index));
+        //}
 
-        // GET: UsersController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UsersController/Delete/5
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

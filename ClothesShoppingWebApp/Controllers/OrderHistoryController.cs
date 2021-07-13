@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ClothesShoppingWebApp.Controllers
@@ -23,9 +24,12 @@ namespace ClothesShoppingWebApp.Controllers
         }
         // GET: OrderHistoryController
         [Authorize(Roles = "User")]
-        public ActionResult Index(int id)
+        public ActionResult Index()
         {
-            var orderList = orderRepository.GetOrderByCustomerId(id);
+            string email = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
+            IUserRepository userRepository = new UserRepository();
+            DTOLibrary.User user = userRepository.GetUser(email);
+            var orderList = orderRepository.GetOrderByCustomerId(user.UserId);
 
             return View(orderList);
         }

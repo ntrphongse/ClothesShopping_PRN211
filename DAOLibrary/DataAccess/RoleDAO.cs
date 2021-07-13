@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTOLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace DAOLibrary.DataAccess
 {
-    class RoleDAO
+    public class RoleDAO
     {
-<<<<<<< Updated upstream
-=======
+
         private static RoleDAO instance = null;
         private static readonly object instanceLock = new object();
         public static RoleDAO Instance
@@ -33,7 +33,9 @@ namespace DAOLibrary.DataAccess
             var roleList = new List<Role>();
             try
             {
+
                 using var context = new ClothesShoppingContext();
+
                 roleList = context.Roles.ToList();
             }
             catch (Exception ex)
@@ -43,6 +45,6 @@ namespace DAOLibrary.DataAccess
             return roleList;
 
         }
->>>>>>> Stashed changes
+
     }
 }
