@@ -24,19 +24,20 @@ namespace ClothesShoppingWebApp.Controllers
         }
         [Authorize(Roles = "Admin")]
         // GET: ProductsController
-        public ActionResult Index(string searchString, string categoryId)
+        public ActionResult Index(string status, string categoryId)
         {
             var productList = productRepository.GetProductList();
             
-            if(!String.IsNullOrEmpty(searchString))
-            {
-                productList = productList.Where(p => p.ProductName.IndexOf(searchString, StringComparison.CurrentCultureIgnoreCase) >= 0 
-                                                            || p.ProductId.ToString().Contains(searchString));
-            }
-
             if(!string.IsNullOrEmpty(categoryId))
             {
                 productList = productList.Where(p => p.CategoryId.ToString() == categoryId);
+            }
+            if(status == "true")
+            {
+                productList = productList.Where(p => p.Status == true);
+            } else if(status == "false")
+            {
+                productList = productList.Where(p => p.Status == false);
             }
 
             ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName");

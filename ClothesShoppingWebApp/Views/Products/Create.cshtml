@@ -5,56 +5,59 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1 class="text-center pt-5">Add new product</h1>
 
-<h4>Product</h4>
 <h4>@ViewBag.Message</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" id="productForm">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+
+<div class="wrapper my-5">
+    <form asp-action="Create" id="productForm">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-row col-12">
+            <div class="form-group col-md-6">
                 <label asp-for="ProductName" class="control-label"></label>
                 <input asp-for="ProductName" class="form-control" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 <label asp-for="CategoryId" class="control-label"></label>
                 <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Category"></select>
             </div>
-            <div class="form-group">
+        </div>
+        <div class="form-row col-12">
+            <div class="form-group col-md-6">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 <label asp-for="Quantity" class="control-label"></label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+        <div class="form-row col-12">
+            <div class="form-group col-12">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" id="uploadedImg" hidden/>
-                <input type="file" id="image" class="form-control"/>
+                <input asp-for="Image" id="uploadedImg" hidden />
+                <input type="file" id="image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
-                </label>
-            </div>
-            <div class="form-group">
-                @*<input type="submit" value="Create" class="btn btn-primary" />*@
-                <button class="btn btn-primary" type="button" onclick="upLoadImage()">Create</button>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="form-group form-check ml-3">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
+            </label>
+        </div>
+        <div class="text-center">
+            @*<input type="submit" value="Create" class="btn btn-primary" />*@
+            <button class="btn btn-primary col-md-3 mb-3" type="button" onclick="upLoadImage()">Create</button>
+            <div> <a asp-action="Index">Back to List</a> </div>
+           
+        </div>
+    </form>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
