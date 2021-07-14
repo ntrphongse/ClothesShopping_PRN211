@@ -58,7 +58,7 @@
                                 if (product.Status == true)
                                 {
                                     <div class="col-4">
-                                        <div class="card" style="width: 18rem;">
+                                        <div class="card" style="width: 18.5rem;">
                                             <img class="card-img-top h-50" src="@product.Image" alt="Card image cap" 
                                                  style="height:400px !important;">
                                             <form method="POST" asp-controller="Cart" asp-action="Add">
@@ -66,7 +66,7 @@
                                                 <div class="card-body">
                                                     <h6 class="card-title text-info">@product.ProductName</h6>
                                                     <p class="card-text">
-                                                        Price: @product.Price |
+                                                        Price: @product.Price $|
                                                         Quantity:
                                                         <input name="Quantity" type="number" value="1" min="1" max="100"
                                                                step="1" oninput="validity.valid||(value='');" />
