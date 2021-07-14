@@ -51,6 +51,7 @@ namespace ClothesShoppingWebApp.Controllers
             {
                 ViewBag.Email = email;
                 User loginUser = userRepository.Login(email, password);
+
                 if (loginUser == null)
                 {
                     ViewBag.Message = "Login failed! Please check your email and password";
