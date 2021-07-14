@@ -121,8 +121,8 @@ namespace ClothesShoppingWebApp.Controllers
                 }
 
                 var email = externalUser.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
-                IUserRepository _userRepository = new UserRepository();
-                User user = _userRepository.GetUser(email);
+                //IUserRepository _userRepository = new UserRepository();
+                User user = userRepository.GetUser(email);
 
                 if (user != null)
                 {
@@ -225,7 +225,7 @@ namespace ClothesShoppingWebApp.Controllers
                 if (email != null && !string.IsNullOrEmpty(email))
                 {
                     // Get User
-                    IUserRepository userRepository = new UserRepository();
+                    //IUserRepository userRepository = new UserRepository();
                     User user = userRepository.GetUser(email);
                     if (user != null)
                     {

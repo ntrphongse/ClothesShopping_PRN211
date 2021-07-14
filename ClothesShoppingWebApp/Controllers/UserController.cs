@@ -13,6 +13,14 @@ namespace ClothesShoppingWebApp.Controllers
 {
     public class UserController : Controller
     {
+
+        IUserRepository userRepository;
+
+        public UsersController()
+        {
+            userRepository = new UserRepository();
+        }
+
         [Authorize(Roles = "User")]
         [HttpGet]
         public IActionResult Index()
@@ -20,7 +28,7 @@ namespace ClothesShoppingWebApp.Controllers
             try
             {
                 string email = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
-                IUserRepository userRepository = new UserRepository();
+                //IUserRepository userRepository = new UserRepository();
                 DTOLibrary.User user = userRepository.GetUser(email);
 
                 UserEditModel userEditModel = new UserEditModel()
@@ -51,7 +59,7 @@ namespace ClothesShoppingWebApp.Controllers
             try
             {
                 string email = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
-                IUserRepository userRepository = new UserRepository();
+                //IUserRepository userRepository = new UserRepository();
                 DTOLibrary.User oldUser = userRepository.GetUser(email);
 
                 if (!email.Equals(user.Email))
