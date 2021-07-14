@@ -12,7 +12,15 @@ namespace ClothesShoppingWebApp.Controllers
 {
     public class SignupController : Controller
     {
+        IUserRepository userRepository;
+
         private string defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/clothshopping-6fd63.appspot.com/o/UserAvatar_Default.png?alt=media&token=3b553ee8-9965-474d-a6ef-5149e4c86273";
+        
+        public SignupController()
+        {
+            userRepository = new UserRepository();
+        }
+        
         [AllowAnonymous]
         public IActionResult Index(string? email, string? fullname)
         {
@@ -57,7 +65,7 @@ namespace ClothesShoppingWebApp.Controllers
                             Avatar = defaultAvatar
                         };
 
-                        IUserRepository userRepository = new UserRepository();
+                        //IUserRepository userRepository = new UserRepository();
                         userRepository.SignUp(newUser);
 
                     } catch (Exception ex)
