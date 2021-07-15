@@ -24,6 +24,10 @@ namespace ClothesShoppingWebApp.Controllers
         [AllowAnonymous]
         public IActionResult Index(string? email, string? fullname)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             UserEditModel userEditModel = new UserEditModel()
             {
                 Email = email,
@@ -36,6 +40,10 @@ namespace ClothesShoppingWebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(UserEditModel user)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             bool isError = false;
             string message = string.Empty;
             if (ModelState.IsValid)
