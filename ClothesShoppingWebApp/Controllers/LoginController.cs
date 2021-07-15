@@ -259,7 +259,7 @@ namespace ClothesShoppingWebApp.Controllers
                         client.Dispose();
 
                         // Set new Password
-                        user.Password = newPassword;
+                        user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword); // Hashing Password
                         userRepository.Update(user);
 
                         HttpContext.SignOutAsync();
