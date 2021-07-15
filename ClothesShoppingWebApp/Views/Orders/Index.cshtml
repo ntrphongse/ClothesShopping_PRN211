@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<DTOLibrary.Order>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Orders</h1>
+<h1 class="text-center pt-5">Manage orders</h1>
 
-<table class="table">
+<table class="table table-striped table-bordered mydatatable">
     <thead>
         <tr>
             <th>
@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.NumberOfItem)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
+                Created date
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Customer)
@@ -29,27 +29,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfItem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.Email)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.OrderId">Details</a> 
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice)$
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfItem)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.Email)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.OrderId">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(".mydatatable").DataTable();
+    </script>
+}
