@@ -16,7 +16,7 @@ namespace ClothesShoppingWebApp.Controllers
 
         IUserRepository userRepository;
 
-        public UsersController()
+        public UserController()
         {
             userRepository = new UserRepository();
         }
