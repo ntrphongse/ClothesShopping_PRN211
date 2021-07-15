@@ -14,13 +14,14 @@ namespace ClothesShoppingWebApp.Controllers
 {
     public class CheckoutController : Controller
     {
-        IOrderRepository orderRepository = new OrderRepository();
-        IOrderDetailRepository orderDetailRepository = new OrderDetailRepository();
-        IProductRepository productRepository = new ProductRepository();
+        IOrderRepository orderRepository;
+        IOrderDetailRepository orderDetailRepository;
+        IProductRepository productRepository;
         public CheckoutController()
         {
-            IOrderRepository orderRepository = new OrderRepository();
-            IOrderDetailRepository orderDetailRepository = new OrderDetailRepository();
+            orderRepository = new OrderRepository();
+            orderDetailRepository = new OrderDetailRepository();
+            productRepository = new ProductRepository();
         }
 
         [Authorize(Roles = "User")]
@@ -45,6 +46,7 @@ namespace ClothesShoppingWebApp.Controllers
             }
             if (quantitycheck == true)
             {
+                TempData["CheckoutMessage"] = "You're trying to order more than what we have in stock, please try again!";
                 return RedirectToAction("Checkout", "Cart");
             }
             else
@@ -72,8 +74,9 @@ namespace ClothesShoppingWebApp.Controllers
                 }
                 list.Clear();
                 HttpContext.Session.SetComplexData("CART", list);
+                TempData["CheckoutMessage"] = "Your order has been placed!";
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Guest");
         }
     }
 }
