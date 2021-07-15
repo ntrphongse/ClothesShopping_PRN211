@@ -30,18 +30,18 @@ namespace ClothesShoppingWebApp.Controllers
         }
 
         // GET: Categories/Details/5
-        public ActionResult Details(int id)
-        {
+        //public ActionResult Details(int id)
+        //{
 
-            var category = categoryRepository.GetCategoryById(id);
+        //    var category = categoryRepository.GetCategoryById(id);
  
-            if (category == null)
-            {
-                return NotFound();
-            }
+        //    if (category == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(category);
-        }
+        //    return View(category);
+        //}
 
         // GET: Categories/Create
         public IActionResult Create()
@@ -71,77 +71,73 @@ namespace ClothesShoppingWebApp.Controllers
         }
 
         // GET: Categories/Edit/5
-        public ActionResult Edit(int id)
-        {
+        //public ActionResult Edit(int id)
+        //{
             
-            var category = categoryRepository.GetCategoryById(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return View(category);
-        }
+        //    var category = categoryRepository.GetCategoryById(id);
+        //    if (category == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(category);
+        //}
 
         // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Category category)
-        {
-            try
-            {
-                if (id != category.CategoryId)
-                {
-                    return NotFound();
-                }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(int id, Category category)
+        //{
+        //    try
+        //    {
+        //        if (id != category.CategoryId)
+        //        {
+        //            return NotFound();
+        //        }
 
-                if (ModelState.IsValid)
-                {
-                    categoryRepository.UpdateCategory(category);                   
-                }
-                return RedirectToAction(nameof(Index));
+        //        if (ModelState.IsValid)
+        //        {
+        //            categoryRepository.UpdateCategory(category);                   
+        //        }
+        //        return RedirectToAction(nameof(Index));
 
-            } catch (Exception ex)
-            {
-                ViewBag.Message = ex.Message;
-                return View();
-            }  
-        }
+        //    } catch (Exception ex)
+        //    {
+        //        ViewBag.Message = ex.Message;
+        //        return View();
+        //    }  
+        //}
 
         // GET: Categories/Delete/5
-        public ActionResult Delete(int id)
-        {
-
-            var category = categoryRepository.GetCategoryById(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
-        }
-
-        // POST: Categories/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            try
-            {
-                categoryRepository.DeleteCategory(id);
-                return RedirectToAction(nameof(Index));
-            } catch(Exception ex)
-            {
-                ViewBag.Message = ex.Message;
-                return View();
-            }
-            
-        }
-
-        //private bool CategoryExists(int id)
+        //public ActionResult Delete(int id)
         //{
-        //    return _context.Categories.Any(e => e.CategoryId == id);
+
+        //    var category = categoryRepository.GetCategoryById(id);
+        //    if (category == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(category);
         //}
+
+        //// POST: Categories/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    try
+        //    {
+        //        categoryRepository.DeleteCategory(id);
+        //        return RedirectToAction(nameof(Index));
+        //    } catch(Exception ex)
+        //    {
+        //        ViewBag.Message = ex.Message;
+        //        return View();
+        //    }
+            
+        //}
+
     }
 }

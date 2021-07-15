@@ -1,22 +1,24 @@
 ﻿@model IEnumerable<DTOLibrary.User>
 
 @{
-    ViewData["Title"] = "Filter";
+    ViewData["Title"] = "Account";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Account list</h2>
+<h1 class="text-center pt-5">Manage accounts</h1>
 
 
-<form asp-controller="Users" asp-action="Filter" method="get">
-    <p>
-        <select name="status">
+<form asp-controller="Users" asp-action="Filter" method="get" class="my-5">
+
+    <div class="form-group col-md-2">
+        <label for="account-status">Status</label>
+        <select name="status" id="account-status" class="form-control">
             <option value="">All</option>
             <option value="true">Active</option>
             <option value="false">Inactive</option>
         </select>
-        <input type="submit" value="Filter" />
-    </p>
+    </div>
+    <button type="submit" class="btn btn-primary col-md-1 ml-3">Filter</button>
 </form>
 <table class="table table-striped table-bordered mydatatable">
     <thead>
@@ -31,9 +33,6 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Gender)
             </th>
             <th>
@@ -43,7 +42,7 @@
                 @Html.DisplayNameFor(model => model.RoleNavigation.RoleName)
             </th>
 
-            <th></th>
+            <th>Status</th>
             <th></th>
         </tr>
     </thead>
@@ -58,7 +57,7 @@
             <td>
                 @if (String.IsNullOrEmpty(item.PhoneNumber))
                 {
-                    <span>No info yet</span>
+                    <span>No info</span>
                 }
                 else @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
@@ -66,15 +65,11 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @if (String.IsNullOrEmpty(item.Address))
+                @if (String.IsNullOrEmpty(item.Gender.ToString()))
                 {
-                    <span>No info yet</span>
+                    <span>No info</span>
                 }
-                else @Html.DisplayFor(modelItem => item.Address)
-
-            </td>
-            <td>
-                @if (item.Gender == true)
+                else if (item.Gender == true)
                 {
                     <span>Male</span>
                 }
@@ -86,7 +81,7 @@
             <td>
                 @if (String.IsNullOrEmpty(item.Birthday.ToString()))
                 {
-                    <span>No info yet</span>
+                    <span>No info</span>
                 }
                 else @Html.DisplayFor(modelItem => item.Birthday)
             </td>
