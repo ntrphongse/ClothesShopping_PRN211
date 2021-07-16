@@ -37,7 +37,7 @@
                 @foreach (var category in Model.Categories)
                 {
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        asp-action="Filter" asp-route-CategoryName="@category.CategoryName">
+                       asp-action="Filter" asp-route-CategoryName="@category.CategoryName">
                         @category.CategoryName
                     </a>
                 }
@@ -58,8 +58,8 @@
                                 if (product.Status == true)
                                 {
                                     <div class="col-4">
-                                        <div class="card">
-                                            <img class="card-img-top h-50" src="@product.Image" alt="Card image cap" 
+                                        <div class="card" style="width: 18.5rem;">
+                                            <img class="card-img-top h-50" src="@product.Image" alt="Card image cap"
                                                  style="height:400px !important;">
                                             <form method="POST" asp-controller="Cart" asp-action="Add">
                                                 <input type="hidden" name="ProductId" value="@product.ProductId" />
@@ -95,3 +95,13 @@
         </div>
     </div>
 </div>
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+
+}  

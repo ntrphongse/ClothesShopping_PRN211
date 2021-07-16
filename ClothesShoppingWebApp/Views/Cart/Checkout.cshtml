@@ -34,8 +34,8 @@
                     <td>@item.ProductName</td>
                     <td><img src="@item.Image" alt="Product Image" style="width:75px;height:75px;" /></td>
                     <td>@item.Quantity</td>
-                    <td>@item.Price</td>
-                    <td>@(item.Price*item.Quantity)</td>
+                    <td>$@item.Price</td>
+                    <td>$@(item.Price*item.Quantity)</td>
                 </tr>
             }
             <tr>
@@ -50,7 +50,7 @@
                             Total += (float)item.Quantity * (float)item.Price;
                         }
                     }
-                    @Total.ToString("0.00")
+                    $@Total.ToString("0.00")
                     <input type="hidden" value="@Total" name="TotalPrice" form="checkoutfrm" />
                     <input type="hidden" value="@Model.Count()" name="NumOfItems" form="checkoutfrm" />
                 </td>
@@ -109,13 +109,3 @@ else
     <div class="col-8" style="padding:0;"></div>
     <input type="submit" class="btn btn-primary col" style="margin-right: 15px;" form="checkoutfrm" value="Confirm" />
 </div>
-@if (ViewBag.Message != null)
-{
-    <script type="text/javascript">
-
-            window.onload = function () {
-                alert("@ViewBag.Message");
-            };
-    </script>
-
-}  

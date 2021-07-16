@@ -14,8 +14,8 @@ namespace ClothesShoppingWebApp.Controllers
 {
     public class OrderHistoryController : Controller
     {
-        IOrderRepository orderRepository = null;
-        IOrderDetailRepository orderDetailRepository = null;
+        IOrderRepository orderRepository;
+        IOrderDetailRepository orderDetailRepository;
 
         public OrderHistoryController()
         {

@@ -30,6 +30,11 @@ namespace ClothesShoppingWebApp.Controllers.Guest
             GuestViewModel models = new GuestViewModel();
             models.Products = listProduct;
             models.Categories = listCategory;
+            if (TempData["CheckoutMessage"] != null)
+            {
+                ViewBag.Message = TempData["CheckoutMessage"];
+                TempData.Remove("CheckoutMessage");
+            }
             return View(models);
         }
 
