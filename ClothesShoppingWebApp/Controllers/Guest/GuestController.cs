@@ -66,7 +66,11 @@ namespace ClothesShoppingWebApp.Controllers.Guest
             IEnumerable<Category> listCategory = categoryRepository.GetCategoryList();
             IEnumerable<Product> listProduct = null;
             var SelectedCat = HttpContext.Session.GetString("SelectedCat");
-            if (SelectedCat == null)
+            if(ProductName == null)
+            {
+                listProduct = new List<Product>();
+            }
+            else if (SelectedCat == null)
             {
                 listProduct = productRepository.GetProductList()
                      .Where(p => p.ProductName.ToLower().Contains(ProductName.ToLower())).ToList();
