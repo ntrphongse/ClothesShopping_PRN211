@@ -94,6 +94,10 @@ namespace ClothesShoppingWebApp.Controllers
         [AllowAnonymous]
         public IActionResult Google()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var authenticationProperties = new AuthenticationProperties
             {
                 RedirectUri = Url.Action("GoogleCallback")
@@ -104,6 +108,7 @@ namespace ClothesShoppingWebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GoogleCallback()
         {
+
             try
             {
                 var request = HttpContext.Request;
@@ -146,6 +151,10 @@ namespace ClothesShoppingWebApp.Controllers
         [HttpGet]
         public IActionResult ForgotPassword()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             string email = string.Empty;
             if (User.Identity.IsAuthenticated)
             {
@@ -220,6 +229,10 @@ namespace ClothesShoppingWebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ForgotPassword(string email)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             try
             {
                 if (email != null && !string.IsNullOrEmpty(email))
@@ -246,7 +259,7 @@ namespace ClothesShoppingWebApp.Controllers
                         client.Dispose();
 
                         // Set new Password
-                        user.Password = newPassword;
+                        user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword); // Hashing Password
                         userRepository.Update(user);
 
                         HttpContext.SignOutAsync();

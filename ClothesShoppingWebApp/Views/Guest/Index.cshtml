@@ -52,7 +52,7 @@
             {
                 <div class="container p-3">
                     <div class="container-fluid">
-                        <div class="row d-inline-flex">
+                       <div class="row d-inline-flex">
                             @foreach (var product in Model.Products)
                             {
                                 if (product.Status == true)
@@ -63,10 +63,10 @@
                                                  style="height:400px !important;">
                                             <form method="POST" asp-controller="Cart" asp-action="Add">
                                                 <input type="hidden" name="ProductId" value="@product.ProductId" />
-                                                <div class="card-body">
+                                                <div class="card-body" style="font-size:90%;">
                                                     <h6 class="card-title text-info">@product.ProductName</h6>
                                                     <p class="card-text">
-                                                        Price: @product.Price $|
+                                                        Price: $@product.Price |
                                                         Quantity:
                                                         <input name="Quantity" type="number" value="1" min="1" max="100"
                                                                step="1" oninput="validity.valid||(value='');" />

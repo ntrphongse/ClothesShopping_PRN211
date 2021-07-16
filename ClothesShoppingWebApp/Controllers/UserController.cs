@@ -66,7 +66,7 @@ namespace ClothesShoppingWebApp.Controllers
                 {
                     throw new Exception("Email is invalid!! Please check again your information");
                 }
-                if (!user.Password.Equals(oldUser.Password))
+                if (userRepository.Login(email, user.Password) == null)
                 {
                     throw new Exception("Your password is not matched!! Please try again...");
                 }
@@ -91,7 +91,7 @@ namespace ClothesShoppingWebApp.Controllers
                     Email = user.Email,
                     FullName = user.FullName,
                     Address = user.Address,
-                    Password = user.Password,
+                    Password = BCrypt.Net.BCrypt.HashPassword(user.Password),
                     Avatar = user.Avatar,
                     Birthday = user.Birthday,
                     Gender = user.Gender,
