@@ -18,13 +18,13 @@
             <img src="@Model.Avatar" height="130" width="130"/>
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
+            Full Name
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FullName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            Phone Number
         </dt>
         <dd class="col-sm-10">
             @if (String.IsNullOrEmpty(Model.PhoneNumber))

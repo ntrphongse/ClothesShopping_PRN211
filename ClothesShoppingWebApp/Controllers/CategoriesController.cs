@@ -9,6 +9,7 @@ using DTOLibrary;
 using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
 using Microsoft.AspNetCore.Authorization;
+using ClothesShoppingWebApp.Models;
 
 namespace ClothesShoppingWebApp.Controllers
 {
@@ -54,19 +55,23 @@ namespace ClothesShoppingWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Category category)
+        public ActionResult Create(CategoryViewModel categoryViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    Category category = new Category
+                    {
+                        CategoryName = categoryViewModel.CategoryName
+                    };
                     categoryRepository.CreateCategory(category);
                 }
                 return RedirectToAction(nameof(Index));
             } catch (Exception ex)
             {
                 ViewBag.Message = ex.Message;
-                return View(category);
+                return View(categoryViewModel);
             } 
         }
 

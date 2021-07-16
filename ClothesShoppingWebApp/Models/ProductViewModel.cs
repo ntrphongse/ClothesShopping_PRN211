@@ -1,33 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace DTOLibrary
+namespace ClothesShoppingWebApp.Models
 {
-    public partial class Product
+    public class ProductViewModel
     {
-        public Product()
-        {
-            OrderDetails = new HashSet<OrderDetail>();
-        }
-
+        [Display(Name = "Product ID")]
         public int ProductId { get; set; }
 
+        [Display (Name = "Product name")]
+        [Required]
         public string ProductName { get; set; }
 
         [Display(Name = "Category ID")]
         public int CategoryId { get; set; }
+
+        [Required]
         public float Price { get; set; }
+
+        [Required]
         public int Quantity { get; set; }
+
+        [Required]
         public string Image { get; set; }
 
+        [Display(Name = "Active")]
         public bool Status { get; set; }
-
-        
-        public virtual Category Category { get; set; }
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

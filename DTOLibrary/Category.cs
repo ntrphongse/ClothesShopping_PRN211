@@ -15,7 +15,6 @@ namespace DTOLibrary
 
         public int CategoryId { get; set; }
 
-        [Display(Name = "Category")]
         public string CategoryName { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }

@@ -37,10 +37,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductId)
+                Product ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                Product Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
@@ -52,7 +52,7 @@
                 Status
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category.CategoryName)
+                Category
             </th>
             <th></th>
         </tr>
@@ -68,7 +68,7 @@
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Price)$
+                    $@Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Quantity)

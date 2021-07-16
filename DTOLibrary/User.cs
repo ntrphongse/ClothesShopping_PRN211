@@ -15,10 +15,10 @@ namespace DTOLibrary
 
         public int UserId { get; set; }
 
-        [Display (Name = "Full name")]
+        
         public string FullName { get; set; }
 
-        [Display (Name = "Phone number")]
+        
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
@@ -27,7 +27,7 @@ namespace DTOLibrary
         public DateTime? Birthday { get; set; }
         public string Avatar { get; set; }
         public int Role { get; set; }
-        [Display (Name = "Active")]
+        
         public bool Status { get; set; }
 
 
