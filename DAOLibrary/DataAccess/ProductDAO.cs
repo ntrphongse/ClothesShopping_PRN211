@@ -32,7 +32,7 @@ namespace DAOLibrary.DataAccess
             try
             {
                 using var context = new ClothesShoppingContext();
-                products = context.Products.Include(p => p.Category).ToList();
+                products = context.Products.Include(p => p.Category).OrderByDescending(p => p.ProductId).ToList();
             } 
             catch (Exception ex)
             {
