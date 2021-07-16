@@ -49,7 +49,7 @@ namespace DAOLibrary.DataAccess
             try
             {
                 using var context = new ClothesShoppingContext();
-                orders = context.Orders.Where(o => o.CustomerId == id).ToList();
+                orders = context.Orders.Where(o => o.CustomerId == id).OrderByDescending(order => order.CreatedDate).ToList();
             }
             catch (Exception ex)
             {
