@@ -1,4 +1,5 @@
-﻿using DAOLibrary.Repository.Interface;
+﻿using ClothesShoppingWebApp.Models;
+using DAOLibrary.Repository.Interface;
 using DAOLibrary.Repository.Object;
 using DTOLibrary;
 using Microsoft.AspNetCore.Authorization;
@@ -66,20 +67,30 @@ namespace ClothesShoppingWebApp.Controllers
         // POST: ProductsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product product)
+        public ActionResult Create(ProductViewModel productViewModel)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
+                    Product product = new Product
+                    {
+                        ProductName = productViewModel.ProductName,
+                        CategoryId = productViewModel.CategoryId,
+                        Price = productViewModel.Price,
+                        Quantity = productViewModel.Quantity,
+                        Status = productViewModel.Status,
+                        Image = productViewModel.Image
+                    };
                     productRepository.CreatePostProduct(product);
                 }
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
+                ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName");
                 ViewBag.Message = ex.Message;
-                return View(product);
+                return View(productViewModel);
             }
         }
 
@@ -89,24 +100,45 @@ namespace ClothesShoppingWebApp.Controllers
         {
             Product product = productRepository.GetProductById(id);
             ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName", product.CategoryId);
-            return View(product);
+            ProductViewModel productViewModel = new ProductViewModel
+            {
+                ProductName = product.ProductName,
+                CategoryId = product.CategoryId,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                Image = product.Image,
+                ProductId = product.ProductId,
+                Status = product.Status
+            };
+            return View(productViewModel);
         }
 
         [Authorize(Roles = "Admin")]
         // POST: ProductsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Product product)
+        public ActionResult Edit(int id, ProductViewModel productViewModel)
         {
             try
             {
-                if (id != product.ProductId)
+                if (id != productViewModel.ProductId)
                 {
                     return NotFound();
                 }
 
                 if(ModelState.IsValid)
                 {
+                    Product product = new Product
+                    {
+                        ProductName = productViewModel.ProductName,
+                        CategoryId = productViewModel.CategoryId,
+                        Price = productViewModel.Price,
+                        Quantity = productViewModel.Quantity,
+                        Status = productViewModel.Status,
+                        Image = productViewModel.Image,
+                        ProductId = productViewModel.ProductId
+                    };
+
                     productRepository.UpdateProduct(product);
                 }
 
@@ -115,8 +147,8 @@ namespace ClothesShoppingWebApp.Controllers
             catch (Exception ex)
             {
                 ViewBag.Message = ex.Message;
-                ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName", product.CategoryId);
-                return View();
+                ViewData["Category"] = new SelectList(categoryRepository.GetCategoryList(), "CategoryId", "CategoryName", productViewModel.CategoryId);
+                return View(productViewModel);
             }
         }
 

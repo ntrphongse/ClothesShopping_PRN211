@@ -19,10 +19,8 @@ namespace DTOLibrary
         
         public string Address { get; set; }
 
-        [Display(Name = "Total price")]
         public float TotalPrice { get; set; }
 
-        [Display(Name = "Number of Item")]
         public int NumberOfItem { get; set; }
 
         public DateTime CreatedDate { get; set; }

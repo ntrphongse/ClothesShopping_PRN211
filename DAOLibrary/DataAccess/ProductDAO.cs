@@ -98,7 +98,7 @@ namespace DAOLibrary.DataAccess
             try
             {
                 List<Product> list = GetProductList().ToList();
-                list.RemoveAll(p => p.ProductId == product.ProductId);  
+                list.RemoveAll(p => p.ProductId == product.ProductId);
                 using var context = new ClothesShoppingContext();
                 Product producTest = list.FirstOrDefault(p => p.ProductName.Trim().ToUpper() == product.ProductName.Trim().ToUpper());
                 
