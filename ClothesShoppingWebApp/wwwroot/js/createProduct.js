@@ -1,6 +1,7 @@
 ﻿function upLoadImage() {
     const ref = firebase.storage().ref();
     const file = document.querySelector("#image").files[0];
+    
     const metadata = {
         contentType: file.type
     };
